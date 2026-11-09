@@ -1488,3 +1488,242 @@ button {
   color: #9aa49b;
   font-size: 9px;
 }
+
+/* DETALHE DO ATENDIMENTO (PAINEL LATERAL) */
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(26, 58, 46, .35);
+}
+
+.case-drawer {
+  width: min(400px, 100vw);
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -12px 0 40px rgba(18, 44, 32, .15);
+  animation: drawer-in .25s ease-out;
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 0;
+}
+
+.drawer-head .eyebrow {
+  margin: 0;
+}
+
+.drawer-close {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #718078;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.drawer-close:hover {
+  background: #eff4e9;
+  color: #1a3a2e;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  align-content: start;
+  gap: 22px;
+  padding: 18px 24px 24px;
+}
+
+.drawer-body h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: 1.3;
+}
+
+.drawer-body h3 {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.drawer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: #7b897f;
+  font-size: 11px;
+}
+
+/* Etapas */
+
+.drawer-steps {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.drawer-steps li {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  color: #8a968d;
+  font-size: 10px;
+}
+
+.drawer-steps li::before {
+  content: "";
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 10px;
+  height: 10px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  background: #e1e9db;
+}
+
+.drawer-steps li::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #e1e9db;
+}
+
+.drawer-steps li:last-child::after {
+  display: none;
+}
+
+.drawer-steps li.done {
+  color: #1a3a2e;
+}
+
+.drawer-steps li.done::before,
+.drawer-steps li.done::after {
+  background: #6a8f4f;
+}
+
+/* O traço só avança até a etapa atual */
+
+.drawer-steps li.done:has(+ li:not(.done))::after {
+  background: #e1e9db;
+}
+
+/* Resumo */
+
+.drawer-summary {
+  background: #f1f6ec;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.drawer-summary > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #6a8f4f;
+  font-size: 11px;
+}
+
+.drawer-summary p {
+  margin: 0;
+  color: #4d6055;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Linha do tempo */
+
+.drawer-timeline {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0 0 0 20px;
+  list-style: none;
+}
+
+.drawer-timeline::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: #d8e2d1;
+}
+
+.drawer-timeline li {
+  position: relative;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.drawer-timeline li::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #a9c786;
+}
+
+.drawer-timeline li.now::before {
+  background: #6a8f4f;
+  border-color: #6a8f4f;
+}
+
+.drawer-timeline small {
+  display: block;
+  color: #7b897f;
+  font-size: 10px;
+}
+
+.drawer-foot {
+  display: flex;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid #edf0eb;
+}
+
+.drawer-foot .primary-button {
+  flex: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-drawer {
+    animation: none;
+  }
+}

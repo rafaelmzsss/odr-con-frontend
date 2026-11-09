@@ -1,6 +1,6 @@
 import CaseCard from "./CaseCard";
 
-export default function CustomerHome({ cases, setActive, openChat }) {
+export default function CustomerHome({ cases, setActive, openChat, onSelectCase }) {
   return (
     <>
       <div className="welcome-panel">
@@ -44,7 +44,7 @@ export default function CustomerHome({ cases, setActive, openChat }) {
           <CaseCard
             key={c.id}
             item={c}
-            onClick={() => setActive("atendimentos")}
+            onClick={() => onSelectCase(c)}
           />
         ))}
       </div>

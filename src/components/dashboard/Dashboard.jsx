@@ -4,6 +4,7 @@ import Sidebar, { menuCustomer, menuCompany } from "./Sidebar";
 import CompanyHome from "./CompanyHome";
 import CustomerHome from "./CustomerHome";
 import GenericPage from "./GenericPage";
+import CaseDetailDrawer from "./CaseDetailDrawer";
 import SophiaChat from "../Sophia/SophiaChat";
 
 const sampleCases = [
@@ -44,6 +45,7 @@ export default function Dashboard({ role, name, onExit }) {
   const [chatOpen, setChatOpen] = useState(false);
   const [cases, setCases] = useState(sampleCases);
   const [notifications, setNotifications] = useState(false);
+  const [selectedCase, setSelectedCase] = useState(null);
 
   // Chamado apenas após o backend devolver um protocolo real.
   const addCase = ({ protocol, summary }) =>
@@ -117,6 +119,7 @@ export default function Dashboard({ role, name, onExit }) {
                 cases={cases}
                 setActive={setActive}
                 openChat={() => setChatOpen(true)}
+                onSelectCase={setSelectedCase}
               />
             )
           ) : active === "novo" ? (
@@ -141,6 +144,7 @@ export default function Dashboard({ role, name, onExit }) {
               role={role}
               cases={cases}
               setActive={setActive}
+              onSelectCase={setSelectedCase}
             />
           )}
         </div>
@@ -153,6 +157,18 @@ export default function Dashboard({ role, name, onExit }) {
         <span>✧</span>
         {chatOpen ? "Fechar Sophia" : "Falar com Sophia"}
       </button>
+
+      {selectedCase && (
+        <CaseDetailDrawer
+          key={selectedCase.id}
+          item={selectedCase}
+          onClose={() => setSelectedCase(null)}
+          onOpenChat={() => {
+            setSelectedCase(null);
+            setChatOpen(true);
+          }}
+        />
+      )}
 
       <SophiaChat
         open={chatOpen}

@@ -3,7 +3,7 @@ import Metric from "./Metric";
 import Status from "./Status";
 import ProtocolLookup from "./ProtocolLookup";
 
-export default function GenericPage({ page, role, cases, setActive }) {
+export default function GenericPage({ page, role, cases, setActive, onSelectCase }) {
   const titleMap = {
     atendimentos: role === "empresa" ? "Atendimentos" : "Meus atendimentos",
     historico: "Histórico de atendimentos",
@@ -71,7 +71,7 @@ export default function GenericPage({ page, role, cases, setActive }) {
 
         <div className="case-list">
           {cases.map(c => (
-            <CaseCard key={c.id} item={c} onClick={() => {}} />
+            <CaseCard key={c.id} item={c} onClick={() => onSelectCase?.(c)} />
           ))}
         </div>
       </>
