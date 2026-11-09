@@ -22,9 +22,6 @@ export default function Purpose() {
             Acreditamos em soluções construídas com diálogo, transparência e participação. Porque uma relação não
             precisa terminar onde um conflito começa.
           </p>
-          <a className="link-arrow" href="#contato">
-            Vamos conversar <Icon name="arrow" />
-          </a>
         </div>
       </div>
     </section>

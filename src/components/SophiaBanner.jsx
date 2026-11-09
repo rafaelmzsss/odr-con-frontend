@@ -24,9 +24,6 @@ export default function SophiaBanner() {
             </p>
           </div>
 
-          <a className="btn btn-dark" href="#sophia-detalhes">
-            Descubra a Sophia <Icon name="arrow" />
-          </a>
         </div>
       </div>
     </section>

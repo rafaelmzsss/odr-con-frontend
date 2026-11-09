@@ -7,7 +7,6 @@ import Solutions from "./components/Solutions";
 import SophiaBanner from "./components/SophiaBanner";
 import HowItWorks from "./components/HowItWorks";
 import Purpose from "./components/Purpose";
-import FinalCta from "./components/FinalCta";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -18,11 +17,10 @@ export default function Home() {
       <main>
         <Hero />
         <Highlights />
+        <Purpose />
+        <HowItWorks />
         <Solutions />
         <SophiaBanner />
-        <HowItWorks />
-        <Purpose />
-        <FinalCta />
       </main>
 
       <Footer />

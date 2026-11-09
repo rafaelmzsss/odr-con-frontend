@@ -3,11 +3,10 @@ import Logo from "./Logo";
 
 const NAV = [
   { label: "Início", href: "#inicio", active: true },
-  { label: "Soluções", href: "#solucoes" },
-  { label: "Como funciona", href: "#como-funciona" },
-  { label: "Conheça a Sophia", href: "#sophia", badge: "IA", icon: "sparkle" },
   { label: "Sobre nós", href: "#sobre" },
-  { label: "Painel do mediador", href: "#painel", icon: "chart" },
+  { label: "Como funciona", href: "#como-funciona" },
+  { label: "Soluções", href: "#solucoes" },
+  { label: "Conheça a Sophia", href: "#sophia", badge: "IA", icon: "sparkle" },
 ];
 
 export default function Header() {
@@ -31,7 +30,7 @@ export default function Header() {
       </nav>
 
       <a className="btn btn-dark btn-sm" href="#contato">
-        Fale com a gente <Icon name="arrow" />
+        Entrar / Cadastrar <Icon name="arrow" />
       </a>
     </header>
   );

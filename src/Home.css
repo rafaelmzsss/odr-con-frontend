@@ -992,12 +992,16 @@ html {
 
 .sophia-banner__box {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 36px;
-  padding: 30px 36px;
+  gap: 24px;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 36px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: #eff3e7;
+  text-align: center;
 }
 
 .sophia-banner__orb {
@@ -1025,16 +1029,24 @@ html {
 .sophia-banner__text {
   min-width: 0;
   flex: 1;
+  width: 100%;
 }
 
 .odr .sophia-banner .section-title {
-  margin-top: 14px;
+  max-width: 480px;
+  margin: 0 auto 16px;
   font-size: clamp(22px, 2.2vw, 28px);
+  text-align: center;
 }
 
 .odr .sophia-banner .section-lead {
-  max-width: 310px;
+  max-width: 480px;
+  margin: 0 auto;
   font-size: 11px;
+}
+
+.sophia-banner__text .eyebrow {
+  margin-bottom: 14px;
 }
 
 /* Como funciona */
@@ -1099,7 +1111,7 @@ html {
 /* Propósito */
 .purpose {
   padding: 72px 0;
-  background: #f3f6ee;
+  background: #f8faf3;
 }
 
 .purpose__grid {
@@ -1122,20 +1134,6 @@ html {
 
 .odr .purpose__body p + p {
   margin-top: 18px;
-}
-
-.odr .purpose__body .link-arrow {
-  margin-top: 26px;
-}
-
-/* Chamada final */
-.final-cta {
-  padding: 80px 0 88px;
-  text-align: center;
-}
-
-.odr .final-cta .btn {
-  margin-top: 28px;
 }
 
 /* Rodapé */
@@ -1170,32 +1168,18 @@ html {
   line-height: 1.8;
 }
 
-.odr-footer__nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  color: var(--ink-soft);
-  font-size: 11px;
-}
-
-.odr-footer__nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.odr-footer__nav a:hover {
-  color: var(--ink);
-}
-
-.odr .odr-footer__nav a:last-child {
-  color: #7f9160;
+.odr .odr-footer__tagline {
+  padding-left: 0;
+  border-left: none;
+  color: #97a39b;
+  font-size: 10px;
+  line-height: 1.8;
+  text-align: right;
 }
 
 .odr-footer__legal {
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: flex-start;
   padding: 16px 0 22px;
   border-top: 1px solid var(--line);
   color: #a8b4ab;
@@ -1292,5 +1276,6 @@ html {
   .odr-footer__legal {
     flex-direction: column;
     gap: 6px;
+    padding: 12px 0 18px;
   }
 }
