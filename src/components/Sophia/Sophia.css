@@ -1,0 +1,50 @@
+/*
+ * Estilos APENAS dos elementos novos da Sophia (digitando, erro, resumo
+ * estruturado, ações). O visual do chat (janela, balões, cabeçalho, botões)
+ * continua vindo de src/App.css, sem alterações. Mesma paleta e tipografia.
+ */
+
+/* Indicador de digitação */
+.typing-bubble{display:flex;gap:4px;align-items:center;padding:13px 14px}
+.typing-bubble span{width:6px;height:6px;border-radius:50%;background:#a7c78d;animation:sophia-typing 1.2s infinite ease-in-out}
+.typing-bubble span:nth-child(2){animation-delay:.15s}
+.typing-bubble span:nth-child(3){animation-delay:.3s}
+@keyframes sophia-typing{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.typing-bubble span{animation:none;opacity:.7}}
+
+/* Mensagem não enviada */
+.chat-failed{display:block;margin-top:5px;font-size:9px;color:#a2573e}
+
+/* Faixa de erro */
+.chat-error{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 13px;background:#fbf0ea;border-top:1px solid #f0d9ce;color:#8a4a34;font-size:9px;line-height:1.5}
+.chat-error p{margin:0;flex:1;min-width:150px}
+.chat-error button{border:1px solid #e6c9bb;border-radius:6px;background:#fff;color:#8a4a34;padding:6px 8px;font-size:9px}
+
+/* Confirmação de nova conversa */
+.chat-confirm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 13px;background:#f4f7f0;border-bottom:1px solid #e8ede5;color:#56665b;font-size:9px}
+.chat-confirm p{margin:0;flex:1;min-width:140px}
+.chat-confirm button{border:1px solid #dce7d5;border-radius:6px;background:#fff;color:#688458;padding:6px 9px;font-size:9px}
+.chat-confirm button:last-child{background:#1a3a2e;color:#fff;border-color:#1a3a2e}
+
+/* Cabeçalho: botão de nova conversa (o de fechar mantém o estilo original) */
+.chat-header>button.chat-new{font-size:16px;opacity:.85}
+.chat-header>button.chat-new:disabled{opacity:.4}
+
+/* Resumo do relato */
+.summary-muted{opacity:.7}
+.report-fields{margin:0 0 10px;display:grid;gap:8px}
+.report-fields dt{font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:#8a968c;margin-bottom:2px}
+.report-fields dd{margin:0;color:#56665b;overflow-wrap:anywhere}
+.report-fields dd.report-empty{color:#a0aaa1;font-style:italic}
+.report-form{display:grid;gap:9px}
+.report-field{display:grid;gap:3px}
+.report-field span{font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:#8a968c}
+.report-field input,.report-field textarea{width:100%;box-sizing:border-box;border:1px solid #e1e9dc;border-radius:8px;padding:8px 10px;font:inherit;font-size:10px;color:#314b38;background:#fff;outline:none;resize:vertical}
+.report-field input:focus,.report-field textarea:focus{border-color:#b8cba8}
+.report-hint{margin:0 0 8px;font-size:9px;color:#a27c3e}
+.summary-actions button:disabled,.chat-compose button:disabled,.chat-compose input:disabled{opacity:.5;cursor:not-allowed}
+
+/* Rodapé após registrar */
+.chat-done{display:flex;gap:8px;flex-wrap:wrap;padding:11px;border-top:1px solid #edf0eb}
+.chat-done button{flex:1;border:1px solid #dce7d5;border-radius:22px;background:#fff;color:#688458;padding:9px 12px;font-size:10px}
+.chat-done button:first-child{background:#1a3a2e;color:#fff;border-color:#1a3a2e}

@@ -1,107 +1,55 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+
 import Home from "./Home";
+import AuthModal from "./components/auth/AuthModal";
+import Dashboard from "./components/dashboard/Dashboard";
+
 import "./App.css";
 
-const sampleCases = [
-  { id: "ODR-2026-0184", company: "Conecta Telecom", title: "Instabilidade na conexão de internet", detail: "Quedas frequentes durante o período da noite.", status: "Em andamento", date: "03 nov. 2026", tone: "blue", category: "Serviço" },
-  { id: "ODR-2026-0172", company: "Loja Horizonte", title: "Solicitação de troca de produto", detail: "Produto apresentou defeito após poucos dias de uso.", status: "Aguardando empresa", date: "29 out. 2026", tone: "amber", category: "Produto" },
-  { id: "ODR-2026-0159", company: "Banco Centralis", title: "Divergência em cobrança", detail: "Valor cobrado diferente do informado na contratação.", status: "Concluído", date: "21 out. 2026", tone: "green", category: "Financeiro" },
-];
-const menuCustomer = [{id:"inicio",label:"Visão geral",icon:"⌂"},{id:"atendimentos",label:"Meus atendimentos",icon:"▤"},{id:"novo",label:"Novo atendimento",icon:"＋"},{id:"anonimo",label:"Relato anônimo",icon:"◌"},{id:"protocolo",label:"Consultar protocolo",icon:"⌕"},{id:"historico",label:"Histórico",icon:"◷"},{id:"perfil",label:"Meu perfil",icon:"♙"}];
-const menuCompany = [{id:"inicio",label:"Visão geral",icon:"⌂"},{id:"atendimentos",label:"Atendimentos",icon:"▤"},{id:"equipe",label:"Equipe",icon:"♧"},{id:"relatorios",label:"Relatórios",icon:"▥"},{id:"satisfacao",label:"Satisfação",icon:"☆"},{id:"perfil",label:"Perfil da empresa",icon:"▣"}];
-
-function Brand({light=false}) { return <div className={`brand ${light?"brand-light":""}`}><span className="brand-mark">◉</span><span>odr-con<span className="brand-dot">.</span></span></div>; }
-function Field({label, ...props}) { return <label className="field"><span>{label}</span><input {...props}/></label>; }
-
-function AuthModal({onClose,onEnter}) {
-  const [role,setRole]=useState("pessoa");
-  const [mode,setMode]=useState("login");
-  const [showPassword,setShowPassword]=useState(false);
-  const [form,setForm]=useState({name:"",email:"",document:"",company:"",password:""});
-  const update=(e)=>setForm({...form,[e.target.name]:e.target.value});
-  const submit=(e)=>{e.preventDefault();if(mode==="recuperar"){setMode("login");return;}onEnter(role,form.name || (role==="empresa"?"Equipe Conecta":"Amanda"));};
-  return <div className="modal-backdrop" onMouseDown={(e)=>e.target===e.currentTarget&&onClose()}><section className="auth-modal">
-    <button className="icon-close" onClick={onClose} aria-label="Fechar">×</button>
-    <div className="auth-aside"><Brand light/><div><span className="eyebrow light">Um novo caminho começa aqui</span><h2>O diálogo transforma relações.</h2><p>Um espaço seguro para registrar, acompanhar e resolver conflitos com respeito.</p></div><div className="auth-aside-foot">ODR-CON · Plataforma de diálogo e resolução</div></div>
-    <div className="auth-content">
-      <div className="auth-mobile-brand"><Brand/></div>
-      <span className="eyebrow">ACESSO À PLATAFORMA</span><h2>{mode==="login"?"Que bom ter você por aqui.":"Crie seu acesso"}</h2><p className="muted">{mode==="login"?"Entre para continuar sua jornada.":"Escolha seu perfil e preencha seus dados."}</p>
-      <div className="role-switch"><button className={role==="pessoa"?"selected":""} onClick={()=>setRole("pessoa")}>♙ Pessoa física</button><button className={role==="empresa"?"selected":""} onClick={()=>setRole("empresa")}>▣ Empresa</button></div>
-      <form onSubmit={submit} className="auth-form">
-        {mode==="cadastro"&&<Field label={role==="empresa"?"Nome do responsável":"Nome completo"} name="name" placeholder="Como podemos chamar você?" value={form.name} onChange={update} required/>}
-        {role==="empresa"&&<Field label="Nome da empresa" name="company" placeholder="Razão social ou nome fantasia" value={form.company} onChange={update} required={mode==="cadastro"}/>}
-        {mode==="cadastro"&&<Field label={role==="empresa"?"CNPJ":"CPF"} name="document" placeholder={role==="empresa"?"00.000.000/0000-00":"000.000.000-00"} value={form.document} onChange={update} required/>}
-        <Field label="E-mail" name="email" type="email" placeholder="Digite seu endereço de e-mail" value={form.email} onChange={update} required/>
-        <label className="field"><span>Senha</span><div className="password-wrap"><input name="password" type={showPassword?"text":"password"} placeholder="Digite sua senha" value={form.password} onChange={update} required/><button type="button" onClick={()=>setShowPassword(!showPassword)}>{showPassword?"Ocultar":"Mostrar"}</button></div></label>
-        {mode==="login"&&<button type="button" className="text-button align-right" onClick={()=>setMode("recuperar")}>Esqueci minha senha</button>}
-        {mode==="recuperar"&&<p className="info-note">Informe seu e-mail acima. Enviaremos as instruções para redefinir sua senha quando a recuperação estiver integrada.</p>}
-        <button className="primary-button full" type="submit">{mode==="login"?"Entrar na plataforma":mode==="cadastro"?"Criar minha conta":"Continuar"} <span>→</span></button>
-      </form>
-      <p className="auth-bottom">{mode==="login"?"Ainda não tem acesso?":"Já possui uma conta?"} <button className="text-button" onClick={()=>setMode(mode==="login"?"cadastro":"login")}>{mode==="login"?"Criar cadastro":"Fazer login"}</button></p>
-      {role==="pessoa"&&mode==="login"&&<button className="anonymous-link" type="button" onClick={()=>onEnter("pessoa","Visitante anônimo")}>Prefiro registrar um relato sem me identificar</button>}
-      <p className="secure-note">♧ Seus dados são tratados com cuidado e confidencialidade.</p>
-    </div>
-  </section></div>;
-}
-
-function Sidebar({role,active,setActive,onExit,name}) {
- const items=role==="empresa"?menuCompany:menuCustomer;
- return <aside className="dash-sidebar"><Brand/><div className="side-user"><div className="avatar">{(name||"A").slice(0,1).toUpperCase()}</div><div><strong>{name}</strong><small>{role==="empresa"?"Acesso corporativo":"Área do consumidor"}</small></div></div><nav>{items.map(x=><button key={x.id} className={active===x.id?"active":""} onClick={()=>setActive(x.id)}><span>{x.icon}</span>{x.label}</button>)}</nav><div className="sidebar-bottom"><div className="privacy-card"><span>✧</span><strong>Conte com a Sophia</strong><small>Sua assistente para encontrar novos caminhos.</small></div><button className="side-exit" onClick={onExit}>↪ Sair da conta</button></div></aside>;
-}
-
-function Status({children}) {const c=children.toLowerCase().includes("conclu")?"green":children.toLowerCase().includes("aguard")?"amber":"blue";return <span className={`status status-${c}`}><i/>{children}</span>;}
-function CaseCard({item,onClick}) {return <button className="case-card" onClick={onClick}><div className="case-top"><span className="case-category">{item.category||"Atendimento"}</span><Status>{item.status}</Status></div><h3>{item.title}</h3><p>{item.detail}</p><div className="case-bottom"><span>{item.id}</span><span>{item.date}　↗</span></div></button>;}
-
-function CustomerHome({cases,setActive,openChat}) {return <><div className="welcome-panel"><div><span className="eyebrow">SEU ESPAÇO DE ESCUTA</span><h1>Olá! Que bom ter você por aqui.</h1><p>Acompanhe seus atendimentos ou converse com a Sophia para registrar uma nova situação.</p><button className="primary-button" onClick={openChat}>Conversar com a Sophia <span>✧</span></button></div><div className="welcome-art"><div className="art-orbit orbit-one"/><div className="art-orbit orbit-two"/><div className="art-sphere">✧</div><span className="art-star">✦</span></div></div><div className="section-heading"><div><span className="eyebrow">ACOMPANHAMENTO</span><h2>Seus atendimentos</h2></div><button className="outline-button" onClick={()=>setActive("atendimentos")}>Ver todos →</button></div><div className="case-grid">{cases.slice(0,3).map(c=><CaseCard key={c.id} item={c} onClick={()=>setActive("atendimentos")}/>)}</div><div className="tip-panel"><span className="tip-icon">✧</span><div><strong>Não sabe por onde começar?</strong><p>A Sophia pode ajudar você a organizar seu relato e entender os próximos passos.</p></div><button className="text-button" onClick={openChat}>Falar com Sophia →</button></div></>;}
-
-function CompanyHome({cases,setActive}) {return <><div className="dashboard-heading"><div><span className="eyebrow">PAINEL CORPORATIVO</span><h1>Visão geral</h1><p>Acompanhe os conflitos e fortaleça o diálogo com seus clientes.</p></div><button className="outline-button" onClick={()=>setActive("relatorios")}>Ver relatórios ↗</button></div><div className="metric-grid"><Metric label="Atendimentos recebidos" value="128" delta="+12% neste mês" icon="▤"/><Metric label="Em andamento" value="36" delta="12 aguardando resposta" icon="◷"/><Metric label="Resolvidos" value="84" delta="65,6% do total" icon="✓"/><Metric label="Tempo médio" value="2,4 dias" delta="−8% em relação ao mês passado" icon="◷"/></div><div className="section-heading"><div><span className="eyebrow">ACOMPANHAMENTO</span><h2>Atendimentos recentes</h2></div><button className="outline-button" onClick={()=>setActive("atendimentos")}>Ver todos →</button></div><div className="table-card"><div className="table-head"><span>Protocolo / assunto</span><span>Cliente</span><span>Data</span><span>Status</span><span/></div>{cases.map((c,i)=><div className="table-row" key={c.id}><div><strong>{c.title}</strong><small>{c.id}</small></div><span>{["Mariana Alves","João Pedro","Cliente identificado"][i]}</span><span>{c.date}</span><Status>{c.status}</Status><button className="more-button">•••</button></div>)}</div></>;}
-function Metric({label,value,delta,icon}) {return <div className="metric-card"><span className="metric-icon">{icon}</span><small>{label}</small><strong>{value}</strong><p>{delta}</p></div>;}
-
-function ProtocolLookup({cases}) {
- const [token,setToken]=useState("");
- const [result,setResult]=useState(null);
- return <><div className="dashboard-heading"><div><span className="eyebrow">ACOMPANHAMENTO</span><h1>Consultar protocolo</h1><p>Informe o código recebido ao registrar seu atendimento para consultar o andamento.</p></div></div><div className="protocol-card"><label className="field"><span>Código do protocolo</span><input value={token} onChange={e=>setToken(e.target.value)} placeholder="Ex.: ODR-2026-0184"/></label><button className="primary-button" onClick={()=>setResult(cases.find(c=>c.id.toLowerCase()===token.trim().toLowerCase())||false)}>Consultar atendimento →</button>{result===false&&<p className="protocol-error">Não encontramos esse protocolo na demonstração. Confira o código e tente novamente.</p>}{result&&result!==false&&<div className="protocol-result"><span className="eyebrow">ATENDIMENTO LOCALIZADO</span><h3>{result.title}</h3><p>{result.detail}</p><Status>{result.status}</Status><small>{result.id} · {result.date}</small></div>}</div></>;
-}
-
-function GenericPage({page,role,cases,setActive}) {
- const titleMap={atendimentos:role==="empresa"?"Atendimentos":"Meus atendimentos",historico:"Histórico de atendimentos",equipe:"Equipe e colaboradores",relatorios:"Relatórios e indicadores",satisfacao:"Pesquisa de satisfação",perfil:role==="empresa"?"Perfil da empresa":"Meu perfil"};
- const title=titleMap[page]||"Visão geral";
- if(page==="anonimo")return <div className="new-case-panel"><span className="eyebrow">RELATO ANÔNIMO</span><h1>Sua voz pode ser ouvida sem identificação.</h1><p>Você pode iniciar uma conversa com a Sophia sem criar uma conta. Não informe dados que possam identificar você no texto do relato.</p><div className="sophia-large">✧</div><button className="primary-button" onClick={()=>setActive("novo")}>Iniciar relato anônimo →</button></div>;
- if(page==="protocolo")return <ProtocolLookup cases={cases}/>;
- if(page==="atendimentos"||page==="historico") return <><div className="dashboard-heading"><div><span className="eyebrow">ACOMPANHAMENTO</span><h1>{title}</h1><p>{role==="empresa"?"Visualize, filtre e acompanhe as solicitações recebidas.":"Consulte o andamento de todas as suas solicitações."}</p></div>{role==="empresa"&&<button className="outline-button">Exportar dados ↓</button>}</div><div className="filter-row"><input placeholder="⌕ Buscar por protocolo ou assunto"/><select><option>Todos os status</option><option>Em andamento</option><option>Aguardando empresa</option><option>Concluído</option></select><select><option>Todos os períodos</option><option>Últimos 30 dias</option><option>Últimos 90 dias</option></select></div><div className="case-list">{cases.map(c=><CaseCard key={c.id} item={c} onClick={()=>{}}/>)}</div></>;
- if(page==="equipe")return <><div className="dashboard-heading"><div><span className="eyebrow">GESTÃO DE ACESSOS</span><h1>Equipe e colaboradores</h1><p>Gerencie quem pode visualizar e tratar os atendimentos da empresa.</p></div><button className="primary-button">＋ Convidar colaborador</button></div><div className="table-card"><div className="table-head"><span>Colaborador</span><span>E-mail</span><span>Perfil</span><span>Status</span><span/></div>{["Ana Beatriz","Carlos Mendes","Fernanda Lima"].map((n,i)=><div className="table-row" key={n}><div><strong>{n}</strong><small>Desde {["12 set. 2026","18 set. 2026","02 out. 2026"][i]}</small></div><span>{["ana@empresa.com","carlos@empresa.com","fernanda@empresa.com"][i]}</span><span>{["Administradora","Gestor","Atendente"][i]}</span><Status>Ativo</Status><button className="more-button">•••</button></div>)}</div></>;
- if(page==="relatorios")return <><div className="dashboard-heading"><div><span className="eyebrow">INTELIGÊNCIA DE DADOS</span><h1>Relatórios</h1><p>Indicadores para acompanhar a qualidade dos atendimentos.</p></div><button className="outline-button">Últimos 30 dias⌄</button></div><div className="metric-grid"><Metric label="Total de reclamações" value="128" delta="+12% no período" icon="▤"/><Metric label="Taxa de resolução" value="65,6%" delta="+4,2 pontos" icon="✓"/><Metric label="Satisfação média" value="4,6/5" delta="Com base em 52 avaliações" icon="☆"/><Metric label="Tempo de resposta" value="8h 20min" delta="−1h 15min" icon="◷"/></div><div className="chart-card"><h3>Volume de atendimentos</h3><p>Distribuição ilustrativa dos últimos seis meses</p><div className="bars-chart">{[42,62,51,78,66,92].map((n,i)=><div key={i}><span style={{height:`${n}%`}}/><small>{["Jun","Jul","Ago","Set","Out","Nov"][i]}</small></div>)}</div></div></>;
- if(page==="satisfacao")return <><div className="dashboard-heading"><div><span className="eyebrow">EXPERIÊNCIA DO CLIENTE</span><h1>Pesquisa de satisfação</h1><p>Acompanhe a percepção dos usuários após os atendimentos.</p></div></div><div className="metric-grid"><Metric label="Satisfação geral" value="4,6/5" delta="52 respostas" icon="☆"/><Metric label="Recomendariam" value="91%" delta="48 respostas positivas" icon="♡"/></div><div className="chart-card"><h3>Questionário WHO-5</h3><p>Instrumento de avaliação de bem-estar, apresentado aqui como módulo de demonstração.</p><div className="info-banner">As respostas são confidenciais e devem ser utilizadas conforme a finalidade informada ao participante.</div><button className="outline-button">Visualizar questionário →</button></div></>;
- if(page==="perfil")return <><div className="dashboard-heading"><div><span className="eyebrow">CONFIGURAÇÕES</span><h1>{title}</h1><p>Atualize seus dados e preferências de acesso.</p></div></div><div className="profile-card"><div className="avatar large">A</div><div><h3>{role==="empresa"?"Conecta Telecom":"Amanda Oliveira"}</h3><p>{role==="empresa"?"CNPJ ••••••••/0001-••":"amanda@email.com"}</p><span className="status status-green">Conta ativa</span></div><button className="outline-button">Editar informações</button></div><div className="chart-card"><h3>Segurança e privacidade</h3><p>Gerencie senha, dados de acesso e preferências de comunicação.</p><button className="text-button">Alterar senha →</button></div></>;
- return <div className="empty-page"><span>✧</span><h2>{title}</h2><p>Este módulo está preparado para receber a integração com o backend.</p></div>;
-}
-
-function SophiaChat({open,onClose,onRegister}) {
- const [messages,setMessages]=useState([{from:"sophia",text:"Olá! Eu sou a Sophia, sua assistente virtual. 💚 Estou aqui para ouvir você e ajudar a organizar seu atendimento. O que aconteceu?"}]);
- const [draft,setDraft]=useState("");
- const [step,setStep]=useState(0);
- const [topic,setTopic]=useState("");
- const send=(value=draft)=>{const text=value.trim();if(!text)return;setMessages(m=>[...m,{from:"user",text}]);setDraft("");if(step===0){setMessages(m=>[...m,{from:"sophia",text:"Entendi. Obrigada por compartilhar. Para encaminhar seu relato, qual é a empresa envolvida?"}]);setStep(1);}else if(step===1){setTopic(text);setMessages(m=>[...m,{from:"sophia",text:`Certo, vamos organizar seu relato sobre ${text}. Você pode descrever o que aconteceu com um pouco mais de detalhes?`}]);setStep(2);}else if(step===2){setMessages(m=>[...m,{from:"sophia",text:"Obrigada. Preparei um resumo inicial para você revisar. Este é um exemplo de fluxo: na versão conectada, você poderá editar, aceitar ou pedir ajustes antes de registrar."},{from:"summary",text}]);setStep(3);}else {setMessages(m=>[...m,{from:"sophia",text:"Anotei sua mensagem. Podemos continuar ajustando seu relato antes do envio."}]);}};
- const finish=()=>{onRegister(topic);setMessages([{from:"sophia",text:"Seu relato foi registrado nesta demonstração! O protocolo ilustrativo é ODR-2026-0191. Você poderá acompanhar o andamento na área de atendimentos."}]);setStep(4);};
- useEffect(()=>{if(!open){setMessages([{from:"sophia",text:"Olá! Eu sou a Sophia, sua assistente virtual. 💚 Estou aqui para ouvir você e ajudar a organizar seu atendimento. O que aconteceu?"}]);setStep(0);setTopic("");}},[open]);
- if(!open)return null;
- return <section className="chat-window"><header className="chat-header"><div className="sophia-avatar">✧</div><div><strong>Sophia</strong><small><i/> Assistente virtual ODR-CON</small></div><button onClick={onClose}>×</button></header><div className="chat-context">Seus relatos são tratados com confidencialidade. Evite compartilhar senhas ou dados bancários.</div><div className="chat-messages">{messages.map((m,i)=><div key={i} className={`chat-line ${m.from==="user"?"mine":""}`}><div className={`chat-bubble ${m.from==="summary"?"summary-bubble":""}`}>{m.from==="summary"?<><strong>Resumo do relato</strong><p>{m.text}</p><div className="summary-actions"><button onClick={()=>{const summary=messages.find(x=>x.from==="summary");setDraft(summary?.text||"");setMessages(ms=>ms.filter(x=>x.from!=="summary"));setStep(2);}}>Editar texto</button><button onClick={()=>{setMessages(ms=>[...ms.filter(x=>x.from!=="summary"),{from:"sophia",text:"Tudo bem. Não vou utilizar essa sugestão. Você pode reescrever seu relato ou continuar conversando comigo."}]);setStep(2);}}>Rejeitar sugestão</button><button onClick={finish}>Aceitar e registrar</button></div></>:m.text}</div></div>)}</div>{step!==4&&<form className="chat-compose" onSubmit={e=>{e.preventDefault();send();}}><input value={draft} onChange={e=>setDraft(e.target.value)} placeholder="Escreva sua mensagem..." /><button type="submit" aria-label="Enviar">↑</button></form>}<footer className="chat-foot">Sophia pode cometer erros. Revise as informações antes de enviar.</footer></section>;
-}
-
-function Dashboard({role,name,onExit}) {
- const [active,setActive]=useState("inicio");
- const [chatOpen,setChatOpen]=useState(false);
- const [cases,setCases]=useState(sampleCases);
- const [notifications,setNotifications]=useState(false);
- const addCase=(company)=>setCases(c=>[{id:"ODR-2026-0191",company:company||"Empresa informada",title:"Novo relato enviado pela Sophia",detail:"Atendimento registrado na demonstração e aguardando encaminhamento.",status:"Em andamento",date:"Hoje",category:"Relato"},...c]);
- const activeMenu=(role==="empresa"?menuCompany:menuCustomer).find(x=>x.id===active);
- return <div className="dashboard-shell"><Sidebar role={role} active={active} setActive={setActive} onExit={onExit} name={name}/><main className="dashboard-main"><header className="dash-topbar"><div className="breadcrumb">ODR-CON <span>/</span> {activeMenu?.label||"Painel"}</div><div className="top-actions"><button onClick={()=>setNotifications(!notifications)} className="notification-button">♧ <i/></button>{notifications&&<div className="notification-pop">Você está em dia! Não há novas notificações.</div>}<div className="top-profile"><div className="avatar small">{name.slice(0,1).toUpperCase()}</div><span>{name}</span></div></div></header><div className="dashboard-content">{active==="inicio"?(role==="empresa"?<CompanyHome cases={cases} setActive={setActive}/>:<CustomerHome cases={cases} setActive={setActive} openChat={()=>setChatOpen(true)}/>):active==="novo"?<div className="new-case-panel"><span className="eyebrow">NOVO ATENDIMENTO</span><h1>Vamos começar uma conversa?</h1><p>A Sophia vai ouvir você, organizar as informações e preparar seu relato para revisão.</p><div className="sophia-large">✧</div><button className="primary-button" onClick={()=>setChatOpen(true)}>Iniciar conversa com Sophia →</button></div>:<GenericPage page={active} role={role} cases={cases} setActive={setActive}/>}</div></main><button className="chat-launcher" onClick={()=>setChatOpen(!chatOpen)}><span>✧</span>{chatOpen?"Fechar Sophia":"Falar com Sophia"}</button><SophiaChat open={chatOpen} onClose={()=>setChatOpen(false)} onRegister={addCase}/></div>;
-}
-
 export default function App() {
- const [session,setSession]=useState(null);
- const [authOpen,setAuthOpen]=useState(false);
- useEffect(()=>{const handle=(e)=>{const a=e.target.closest('a[href="#conflito"],a[href="#relato"],a[href="#empresas"],a[href="#contato"]');if(a){e.preventDefault();setAuthOpen(true);}};document.addEventListener("click",handle);return()=>document.removeEventListener("click",handle);},[]);
- const enter=(role,name)=>{setSession({role,name});setAuthOpen(false);};
- return session?<Dashboard role={session.role} name={session.name} onExit={()=>setSession(null)}/>:<><Home/>{authOpen&&<AuthModal onClose={()=>setAuthOpen(false)} onEnter={enter}/>}</>;
+  const [session, setSession] = useState(null);
+  const [authOpen, setAuthOpen] = useState(false);
+
+  useEffect(() => {
+    const handle = (e) => {
+      const a = e.target.closest(
+        'a[href="#conflito"], a[href="#relato"], a[href="#empresas"], a[href="#contato"]'
+      );
+
+      if (a) {
+        e.preventDefault();
+        setAuthOpen(true);
+      }
+    };
+
+    document.addEventListener("click", handle);
+
+    return () => {
+      document.removeEventListener("click", handle);
+    };
+  }, []);
+
+  const enter = (role, name) => {
+    setSession({ role, name });
+    setAuthOpen(false);
+  };
+
+  return session ? (
+    <Dashboard
+      role={session.role}
+      name={session.name}
+      onExit={() => setSession(null)}
+    />
+  ) : (
+    <>
+      <Home />
+
+      {authOpen && (
+        <AuthModal
+          onClose={() => setAuthOpen(false)}
+          onEnter={enter}
+        />
+      )}
+    </>
+  );
 }

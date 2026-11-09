@@ -17,8 +17,12 @@ npm run dev
 - Entrada demonstrativa para relato sem identificação.
 - Área do consumidor: visão geral, cards de atendimentos, novo atendimento via Sophia, histórico, consulta por protocolo e perfil.
 - Área corporativa: indicadores, atendimentos, equipe/colaboradores, relatórios, satisfação/WHO-5 e perfil.
-- Chat flutuante da Sophia com fluxo demonstrativo de coleta, revisão, edição, rejeição e confirmação de relato.
+- Chat flutuante da Sophia preparado para integração HTTP com o backend (conversa dinâmica, revisão/edição/rejeição/confirmação do relato, estados de carregamento e erro). **A IA ainda não está conectada**: veja `docs/INTEGRACAO_BACKEND.md`.
 - Layout responsivo para desktop e celular.
+
+## Configuração
+
+Copie `.env.example` para `.env.local` e defina `VITE_API_BASE_URL` (URL do backend). Nunca coloque chaves ou segredos em variáveis `VITE_*`.
 
 ## Dados e integrações
 
