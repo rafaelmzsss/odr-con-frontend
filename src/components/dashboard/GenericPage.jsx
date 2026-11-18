@@ -3,8 +3,8 @@ import Metric from "./Metric";
 import Status from "./Status";
 import ProtocolLookup from "./ProtocolLookup";
 
-export default function GenericPage({ page, role, cases, setActive, onSelectCase }) {
-  const titleMap = {
+export default function GenericPage({ page, role, name, email, cases, setActive, onSelectCase }) {
+    const titleMap = {
     atendimentos: role === "empresa" ? "Atendimentos" : "Meus atendimentos",
     historico: "Histórico de atendimentos",
     equipe: "Equipe e colaboradores",
@@ -192,7 +192,9 @@ export default function GenericPage({ page, role, cases, setActive, onSelectCase
   }
 
   if (page === "perfil") {
-    return (
+  const isAnonymous = name === "Visitante anônimo";
+
+  return (
       <>
         <div className="dashboard-heading">
           <div>
@@ -203,17 +205,23 @@ export default function GenericPage({ page, role, cases, setActive, onSelectCase
         </div>
 
         <div className="profile-card">
-          <div className="avatar large">A</div>
+          <div className="avatar large">
+            {(name || "?").slice(0, 1).toUpperCase()}
+          </div>
           <div>
-            <h3>{role === "empresa" ? "Conecta Telecom" : "Amanda Oliveira"}</h3>
+            <h3>{name}</h3>
             <p>
               {role === "empresa"
                 ? "CNPJ ••••••••/0001-••"
-                : "amanda@email.com"}
+                : isAnonymous
+                  ? "Sessão anônima, sem dados de identificação"
+                  : email}
             </p>
             <span className="status status-green">Conta ativa</span>
           </div>
-          <button className="outline-button">Editar informações</button>
+          {!isAnonymous && (
+            <button className="outline-button">Editar informações</button>
+          )}
         </div>
 
         <div className="chart-card">

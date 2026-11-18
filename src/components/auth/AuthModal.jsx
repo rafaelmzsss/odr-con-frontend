@@ -16,10 +16,13 @@ export default function AuthModal({ onClose, onEnter }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    document: "",
+    firstName: "",
+    lastName: "",
+    age: "",
+    name: "", // responsável (empresa)
     company: "",
+    document: "", // CNPJ (empresa)
+    email: "",
     password: "",
   });
 
@@ -27,18 +30,22 @@ export default function AuthModal({ onClose, onEnter }) {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const submit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (mode === "recuperar") {
-      setMode("login");
-      return;
-    }
+  if (mode === "recuperar") {
+    setMode("login");
+    return;
+  }
 
-    onEnter(
-      role,
-      form.name || (role === "empresa" ? "Equipe Conecta" : "Amanda")
-    );
-  };
+  const personName = `${form.firstName} ${form.lastName}`.trim();
+
+  onEnter(
+    role,
+    (role === "empresa" ? form.name : personName) ||
+      (role === "empresa" ? "Equipe Conecta" : form.email.split("@")[0]),
+    form.email
+  );
+};
 
   return (
     <div
@@ -107,13 +114,47 @@ export default function AuthModal({ onClose, onEnter }) {
           </div>
 
           <form onSubmit={submit} className="auth-form">
-            {mode === "cadastro" && (
+            {mode === "cadastro" && role === "pessoa" && (
+              <>
+                <div className="field-row">
+                  <Field
+                    label="Nome"
+                    name="firstName"
+                    placeholder="Seu nome"
+                    autoComplete="given-name"
+                    value={form.firstName}
+                    onChange={update}
+                    required
+                  />
+                  <Field
+                    label="Sobrenome"
+                    name="lastName"
+                    placeholder="Seu sobrenome"
+                    autoComplete="family-name"
+                    value={form.lastName}
+                    onChange={update}
+                    required
+                  />
+                </div>
+
+                <Field
+                  label="Idade"
+                  name="age"
+                  type="number"
+                  inputMode="numeric"
+                  min="1"
+                  max="120"
+                  placeholder="Digite sua idade"
+                  value={form.age}
+                  onChange={update}
+                  required
+                />
+              </>
+            )}
+
+            {mode === "cadastro" && role === "empresa" && (
               <Field
-                label={
-                  role === "empresa"
-                    ? "Nome do responsável"
-                    : "Nome completo"
-                }
+                label="Nome do responsável"
                 name="name"
                 placeholder="Como podemos chamar você?"
                 value={form.name}
@@ -133,15 +174,12 @@ export default function AuthModal({ onClose, onEnter }) {
               />
             )}
 
-            {mode === "cadastro" && (
+            {mode === "cadastro" && role === "empresa" && (
               <Field
-                label={role === "empresa" ? "CNPJ" : "CPF"}
+                label="CNPJ"
                 name="document"
-                placeholder={
-                  role === "empresa"
-                    ? "00.000.000/0000-00"
-                    : "000.000.000-00"
-                }
+                inputMode="numeric"
+                placeholder="00.000.000/0000-00"
                 value={form.document}
                 onChange={update}
                 required
@@ -153,6 +191,7 @@ export default function AuthModal({ onClose, onEnter }) {
               name="email"
               type="email"
               placeholder="Digite seu endereço de e-mail"
+              autoComplete="email"
               value={form.email}
               onChange={update}
               required
@@ -164,7 +203,15 @@ export default function AuthModal({ onClose, onEnter }) {
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Digite sua senha"
+                  placeholder={
+                    mode === "cadastro"
+                      ? "Escolha uma senha"
+                      : "Digite sua senha"
+                  }
+                  autoComplete={
+                    mode === "cadastro" ? "new-password" : "current-password"
+                  }
+                  minLength={mode === "cadastro" ? 8 : undefined}
                   value={form.password}
                   onChange={update}
                   required
@@ -206,6 +253,31 @@ export default function AuthModal({ onClose, onEnter }) {
             </button>
           </form>
 
+          {role === "pessoa" && mode === "login" && (
+            <button
+              className="anonymous-button"
+              type="button"
+              onClick={() => onEnter("pessoa", "Visitante anônimo")}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+                <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
+                <path d="M3 3l18 18" />
+              </svg>
+              Registrar relato sem me identificar
+            </button>
+          )}
+
           <p className="auth-bottom">
             {mode === "login"
               ? "Ainda não tem acesso?"
@@ -220,16 +292,6 @@ export default function AuthModal({ onClose, onEnter }) {
               {mode === "login" ? "Criar cadastro" : "Fazer login"}
             </button>
           </p>
-
-          {role === "pessoa" && mode === "login" && (
-            <button
-              className="anonymous-link"
-              type="button"
-              onClick={() => onEnter("pessoa", "Visitante anônimo")}
-            >
-              Prefiro registrar um relato sem me identificar
-            </button>
-          )}
 
           <p className="secure-note">
             ♧ Seus dados são tratados com cuidado e confidencialidade.

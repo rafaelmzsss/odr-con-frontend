@@ -40,7 +40,7 @@ const sampleCases = [
   },
 ];
 
-export default function Dashboard({ role, name, onExit }) {
+export default function Dashboard({ role, name, email, onExit }) {
   const [active, setActive] = useState("inicio");
   const [chatOpen, setChatOpen] = useState(false);
   const [cases, setCases] = useState(sampleCases);
@@ -140,11 +140,13 @@ export default function Dashboard({ role, name, onExit }) {
             </div>
           ) : (
             <GenericPage
-              page={active}
-              role={role}
-              cases={cases}
-              setActive={setActive}
-              onSelectCase={setSelectedCase}
+            page={active}
+            role={role}
+            name={name}
+            email={email}
+            cases={cases}
+            setActive={setActive}
+            onSelectCase={setSelectedCase}
             />
           )}
         </div>

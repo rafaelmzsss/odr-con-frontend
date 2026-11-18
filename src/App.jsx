@@ -28,18 +28,20 @@ export default function App() {
       document.removeEventListener("click", handle);
     };
   }, []);
-
-  const enter = (role, name) => {
-    setSession({ role, name });
-    setAuthOpen(false);
-  };
+  
+  const enter = (role, name, email = "") => {
+  setSession({ role, name, email });
+  setAuthOpen(false);
+};
 
   return session ? (
-    <Dashboard
-      role={session.role}
-      name={session.name}
-      onExit={() => setSession(null)}
-    />
+  
+  <Dashboard
+  role={session.role}
+  name={session.name}
+  email={session.email}
+  onExit={() => setSession(null)}
+/>
   ) : (
     <>
       <Home />

@@ -298,6 +298,18 @@ button {
   color: #a4afa6;
 }
 
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Campo de senha */
 
 .password-wrap {
@@ -1435,15 +1447,32 @@ button {
   }
 }
 
-.anonymous-link {
-  color: #7d906e;
-  text-underline-offset: 3px;
-  background: 0 0;
-  border: 0;
-  margin: 0 auto 13px;
-  font-size: 10px;
-  text-decoration: underline;
-  display: block;
+.anonymous-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 14px;
+  border: 1px solid #6e8c57;
+  border-radius: 8px;
+  background: #6e8c57;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.anonymous-button:hover {
+  background: #5d7a47;
+  border-color: #5d7a47;
+  transform: translateY(-1px);
+}
+
+.anonymous-button:focus-visible {
+  outline: 3px solid rgba(110, 140, 87, 0.35);
+  outline-offset: 2px;
 }
 
 .protocol-card {
