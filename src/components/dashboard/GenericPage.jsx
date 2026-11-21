@@ -21,10 +21,10 @@ export default function GenericPage({ page, role, name, email, cases, setActive,
         <span className="eyebrow">RELATO ANÔNIMO</span>
         <h1>Sua voz pode ser ouvida sem identificação.</h1>
         <p>
-          Você pode iniciar uma conversa com a Sophia sem criar uma conta.
+          Você pode iniciar uma conversa com a Priscila sem criar uma conta.
           Não informe dados que possam identificar você no texto do relato.
         </p>
-        <div className="sophia-large">✧</div>
+        <div className="priscila-large">✧</div>
         <button className="primary-button" onClick={() => setActive("novo")}>
           Iniciar relato anônimo →
         </button>

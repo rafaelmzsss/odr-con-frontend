@@ -140,7 +140,7 @@ export default function CaseDetailDrawer({ item, onClose, onOpenChat }) {
 
         <footer className="drawer-foot">
           <button className="primary-button" onClick={onOpenChat}>
-            Falar com a Sophia
+            Falar com a Priscila
           </button>
 
           <button className="outline-button" onClick={copyProtocol}>

@@ -1,4 +1,4 @@
-/** Balão de texto da conversa (usuário ou Sophia). Resumos usam ReportSummary. */
+/** Balão de texto da conversa (usuário ou Priscila). Resumos usam ReportSummary. */
 export default function ChatMessage({ message }) {
   const mine = message.from === "user";
 

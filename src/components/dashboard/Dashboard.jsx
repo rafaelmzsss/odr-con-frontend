@@ -5,7 +5,7 @@ import CompanyHome from "./CompanyHome";
 import CustomerHome from "./CustomerHome";
 import GenericPage from "./GenericPage";
 import CaseDetailDrawer from "./CaseDetailDrawer";
-import SophiaChat from "../Sophia/SophiaChat";
+import PriscilaChat from "../Priscila/PriscilaChat";
 
 const sampleCases = [
   {
@@ -53,7 +53,7 @@ export default function Dashboard({ role, name, email, onExit }) {
       {
         id: protocol,
         company: summary.company || "Empresa não informada",
-        title: "Novo relato enviado pela Sophia",
+        title: "Novo relato enviado pela Priscila",
         detail: summary.description,
         status: "Registrado",
         date: "Hoje",
@@ -127,15 +127,15 @@ export default function Dashboard({ role, name, email, onExit }) {
               <span className="eyebrow">NOVO ATENDIMENTO</span>
               <h1>Vamos começar uma conversa?</h1>
               <p>
-                A Sophia vai ouvir você, organizar as informações e preparar
+                A Priscila vai ouvir você, organizar as informações e preparar
                 seu relato para revisão.
               </p>
-              <div className="sophia-large">✧</div>
+              <div className="priscila-large">✧</div>
               <button
                 className="primary-button"
                 onClick={() => setChatOpen(true)}
               >
-                Iniciar conversa com Sophia →
+                Iniciar conversa com Priscila →
               </button>
             </div>
           ) : (
@@ -157,7 +157,7 @@ export default function Dashboard({ role, name, email, onExit }) {
         onClick={() => setChatOpen(!chatOpen)}
       >
         <span>✧</span>
-        {chatOpen ? "Fechar Sophia" : "Falar com Sophia"}
+        {chatOpen ? "Fechar Priscila" : "Falar com Priscila"}
       </button>
 
       {selectedCase && (
@@ -172,7 +172,7 @@ export default function Dashboard({ role, name, email, onExit }) {
         />
       )}
 
-      <SophiaChat
+      <PriscilaChat
         open={chatOpen}
         onClose={() => setChatOpen(false)}
         onRegistered={addCase}

@@ -232,7 +232,7 @@
 }
 
 /*
- * Ilustração da Sophia
+ * Ilustração da Priscila
  * A área visual mantém a proporção de referência (720 x 600).
  * Os elementos internos usam medidas controladas, sem crescer junto
  * com a coluna da página.
@@ -440,7 +440,7 @@
   white-space: nowrap;
 }
 
-.odr-visual .c-sophia {
+.odr-visual .c-priscila {
   top: 38%;
   right: 0;
   width: 270px;
@@ -448,7 +448,7 @@
   transform: rotate(3deg);
 }
 
-.odr-visual .c-sophia header {
+.odr-visual .c-priscila header {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -456,16 +456,16 @@
   font-size: 15px;
 }
 
-.odr-visual .c-sophia header > svg {
+.odr-visual .c-priscila header > svg {
   flex: 0 0 auto;
   color: var(--leaf);
 }
 
-.odr-visual .c-sophia > p {
+.odr-visual .c-priscila > p {
   font-size: 13px;
 }
 
-.odr-visual .c-sophia footer {
+.odr-visual .c-priscila footer {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -475,7 +475,7 @@
   white-space: nowrap;
 }
 
-.odr-visual .c-sophia footer svg {
+.odr-visual .c-priscila footer svg {
   width: 12px;
   height: 12px;
   flex: 0 0 auto;
@@ -684,24 +684,24 @@
     font-size: 7px;
   }
 
-  .odr-visual .c-sophia {
+  .odr-visual .c-priscila {
     top: 39%;
     right: -1%;
     width: 56%;
     padding: 15px;
   }
 
-  .odr-visual .c-sophia header {
+  .odr-visual .c-priscila header {
     gap: 6px;
     margin-bottom: 9px;
     font-size: 12px;
   }
 
-  .odr-visual .c-sophia > p {
+  .odr-visual .c-priscila > p {
     font-size: 10px;
   }
 
-  .odr-visual .c-sophia footer {
+  .odr-visual .c-priscila footer {
     gap: 4px;
     margin-top: 10px;
     font-size: 7px;
@@ -985,12 +985,12 @@ html {
   color: var(--leaf);
 }
 
-/* Banner da Sophia */
-.sophia-banner {
+/* Banner da Priscila */
+.priscila-banner {
   padding: 0 0 72px;
 }
 
-.sophia-banner__box {
+.priscila-banner__box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1004,7 +1004,7 @@ html {
   text-align: center;
 }
 
-.sophia-banner__orb {
+.priscila-banner__orb {
   display: grid;
   width: 124px;
   height: 124px;
@@ -1015,7 +1015,7 @@ html {
   box-shadow: 0 0 0 14px rgb(223 236 205 / 45%);
 }
 
-.sophia-banner__orb span {
+.priscila-banner__orb span {
   display: grid;
   width: 74px;
   height: 74px;
@@ -1026,26 +1026,26 @@ html {
   color: #fff;
 }
 
-.sophia-banner__text {
+.priscila-banner__text {
   min-width: 0;
   flex: 1;
   width: 100%;
 }
 
-.odr .sophia-banner .section-title {
+.odr .priscila-banner .section-title {
   max-width: 480px;
   margin: 0 auto 16px;
   font-size: clamp(22px, 2.2vw, 28px);
   text-align: center;
 }
 
-.odr .sophia-banner .section-lead {
+.odr .priscila-banner .section-lead {
   max-width: 480px;
   margin: 0 auto;
   font-size: 11px;
 }
 
-.sophia-banner__text .eyebrow {
+.priscila-banner__text .eyebrow {
   margin-bottom: 14px;
 }
 
@@ -1225,7 +1225,7 @@ html {
     grid-template-columns: 1fr;
   }
 
-  .sophia-banner__box {
+  .priscila-banner__box {
     flex-direction: column;
     align-items: flex-start;
     padding: 28px 24px;

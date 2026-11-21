@@ -20,8 +20,8 @@ export default function Hero() {
           <a className="btn btn-dark" href="#conflito">
             Quero resolver um conflito <Icon name="arrow" />
           </a>
-          <a className="btn btn-light" href="#sophia">
-            <Icon name="sparkle" /> Conheça a Sophia
+          <a className="btn btn-light" href="#priscila">
+            <Icon name="sparkle" /> Conheça a Priscila
           </a>
         </div>
         <ul className="odr-trust">
@@ -34,7 +34,7 @@ export default function Hero() {
         </ul>
       </div>
 
-      <div className="odr-visual" aria-label="Ilustração da Sophia">
+      <div className="odr-visual" aria-label="Ilustração da Priscila">
         <span className="odr-tag">Inteligência que acolhe</span>
         <i className="ring r1" />
         <i className="ring r2" />
@@ -61,9 +61,9 @@ export default function Hero() {
           </div>
         </article>
 
-        <article className="card c-sophia">
+        <article className="card c-priscila">
           <header>
-            <Icon name="sparkle" /> <strong>Sophia</strong> <em className="odr-badge">IA</em>
+            <Icon name="sparkle" /> <strong>Priscila</strong> <em className="odr-badge">IA</em>
           </header>
           <p>
             Transformando conflitos

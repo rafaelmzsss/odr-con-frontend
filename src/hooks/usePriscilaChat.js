@@ -1,5 +1,5 @@
 /**
- * Estado e regras do fluxo de conversa da Sophia, fora do componente visual.
+ * Estado e regras do fluxo de conversa da Priscila, fora do componente visual.
  *
  * Responsabilidades:
  * - manter o histórico e o `conversationId` durante a sessão (fechar a janela
@@ -14,7 +14,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getErrorMessage } from "../services/api";
 import { registerReport, canRegister, normalizeSummary } from "../services/reportService";
-import { sendMessage, MAX_MESSAGE_LENGTH, SOPHIA_STATUS } from "../services/sophiaService";
+import { sendMessage, MAX_MESSAGE_LENGTH, PRISCILA_STATUS } from "../services/priscilaService";
 
 export const CHAT_PHASE = Object.freeze({
   COLLECTING: "collecting",
@@ -33,7 +33,7 @@ export const SUMMARY_STATE = Object.freeze({
 
 // Saudação local de interface. Não é resposta da IA e não vai ao backend.
 const GREETING_TEXT =
-  "Olá! Eu sou a Sophia, sua assistente virtual. 💚 Estou aqui para ouvir você e ajudar a organizar seu atendimento. O que aconteceu?";
+  "Olá! Eu sou a Priscila, sua assistente virtual. 💚 Estou aqui para ouvir você e ajudar a organizar seu atendimento. O que aconteceu?";
 
 const REJECTED_NOTICE =
   "Tudo bem. Não vou utilizar essa sugestão. Você pode continuar conversando comigo ou pedir um novo resumo.";
@@ -41,13 +41,13 @@ const REJECTED_NOTICE =
 let messageSeq = 0;
 const newId = () => `msg-${++messageSeq}`;
 
-const createGreeting = () => ({ id: newId(), from: "sophia", text: GREETING_TEXT, local: true });
+const createGreeting = () => ({ id: newId(), from: "priscila", text: GREETING_TEXT, local: true });
 
-export function useSophiaChat({ onRegistered } = {}) {
+export function usePriscilaChat({ onRegistered } = {}) {
   const [messages, setMessages] = useState(() => [createGreeting()]);
   const [conversationId, setConversationId] = useState(null);
   const [phase, setPhase] = useState(CHAT_PHASE.COLLECTING);
-  const [isWaiting, setIsWaiting] = useState(false); // Sophia "digitando"
+  const [isWaiting, setIsWaiting] = useState(false); // Priscila "digitando"
   const [error, setError] = useState(null); // { type: "send" | "register", message, messageId? }
   const [registration, setRegistration] = useState(null); // { protocol }
 
@@ -89,8 +89,8 @@ export function useSophiaChat({ onRegistered } = {}) {
         });
         if (session !== sessionRef.current) return;
 
-        const ready = reply.status === SOPHIA_STATUS.READY_FOR_REVIEW;
-        const replyMessage = { id: newId(), from: "sophia", text: reply.reply };
+        const ready = reply.status === PRISCILA_STATUS.READY_FOR_REVIEW;
+        const replyMessage = { id: newId(), from: "priscila", text: reply.reply };
         const summaryMessage = ready
           ? { id: newId(), from: "summary", report: reply.summary, state: SUMMARY_STATE.ACTIVE }
           : null;
@@ -182,7 +182,7 @@ export function useSophiaChat({ onRegistered } = {}) {
       patchMessage(id, { state: SUMMARY_STATE.REJECTED });
       setMessages((list) => [
         ...list,
-        { id: newId(), from: "sophia", text: REJECTED_NOTICE, local: true },
+        { id: newId(), from: "priscila", text: REJECTED_NOTICE, local: true },
       ]);
       setPhase(CHAT_PHASE.COLLECTING);
     },
@@ -222,7 +222,7 @@ export function useSophiaChat({ onRegistered } = {}) {
         ...list,
         {
           id: newId(),
-          from: "sophia",
+          from: "priscila",
           local: true,
           text: `Seu relato foi registrado. O protocolo é ${result.protocol}. Você poderá acompanhar o andamento na área de atendimentos.`,
         },

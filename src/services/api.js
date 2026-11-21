@@ -27,8 +27,8 @@ const DEFAULT_TIMEOUT_MS = 30_000;
  * contrato definitivo for fechado (ver docs/INTEGRACAO_BACKEND.md).
  */
 export const ENDPOINTS = Object.freeze({
-  // PROPOSTA: envia uma mensagem do usuário e recebe a resposta da Sophia.
-  sophiaMessage: { method: "POST", path: "/api/sophia/messages" },
+  // PROPOSTA: envia uma mensagem do usuário e recebe a resposta da Priscila.
+  PriscilaMessage: { method: "POST", path: "/api/priscila/messages" },
   // PROPOSTA: registra o relato APÓS confirmação explícita do usuário.
   reportRegister: { method: "POST", path: "/api/reports" },
 });
@@ -38,7 +38,7 @@ export const ENDPOINTS = Object.freeze({
 /* ------------------------------------------------------------------ */
 
 const USER_MESSAGES = {
-  not_configured: "A Sophia ainda não está conectada ao servidor neste ambiente.",
+  not_configured: "A Priscila ainda não está conectada ao servidor neste ambiente.",
   network: "Não consegui me conectar ao servidor. Verifique sua internet e tente novamente.",
   timeout: "O servidor demorou demais para responder. Tente novamente.",
   unavailable: "O atendimento está temporariamente indisponível. Tente novamente em alguns instantes.",

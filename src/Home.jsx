@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Highlights from "./components/Highlights";
 import Solutions from "./components/Solutions";
-import SophiaBanner from "./components/SophiaBanner";
+import PriscilaBanner from "./components/PriscilaBanner";
 import HowItWorks from "./components/HowItWorks";
 import Purpose from "./components/Purpose";
 import Footer from "./components/Footer";
@@ -20,7 +20,7 @@ export default function Home() {
         <Purpose />
         <HowItWorks />
         <Solutions />
-        <SophiaBanner />
+        <PriscilaBanner />
       </main>
 
       <Footer />

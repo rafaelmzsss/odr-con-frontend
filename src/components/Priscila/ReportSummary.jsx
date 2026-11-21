@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { REPORT_FIELDS, canRegister } from "../../services/reportService";
-import { SUMMARY_STATE } from "../../hooks/useSophiaChat";
+import { SUMMARY_STATE } from "../../hooks/usePriscilaChat";
 
 const STATE_LABEL = {
   [SUMMARY_STATE.SUPERSEDED]: "Resumo anterior",

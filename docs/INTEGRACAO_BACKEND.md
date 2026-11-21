@@ -1,8 +1,8 @@
-# Integração da Sophia com o backend (Spring Boot)
+# Integração da Priscila com o backend (Spring Boot)
 
 Este documento separa o que **já está pronto no frontend** do que **ainda depende do backend**.
 
-> **Estado atual:** o frontend está preparado para a integração, mas a Sophia **não está conectada a nenhuma IA**. Sem backend, o chat mostra uma mensagem de erro amigável e **não gera respostas, resumos nem protocolos de mentira**. A integração só estará concluída quando o backend implementar e validar os contratos abaixo.
+> **Estado atual:** o frontend está preparado para a integração, mas a Priscila **não está conectada a nenhuma IA**. Sem backend, o chat mostra uma mensagem de erro amigável e **não gera respostas, resumos nem protocolos de mentira**. A integração só estará concluída quando o backend implementar e validar os contratos abaixo.
 
 ## 1. O que está pronto no frontend
 
@@ -10,10 +10,10 @@ Este documento separa o que **já está pronto no frontend** do que **ainda depe
 |---|---|
 | URL base configurável (`VITE_API_BASE_URL`), timeout, cabeçalhos, tratamento de status HTTP e erros amigáveis | `src/services/api.js` |
 | Caminhos e métodos HTTP centralizados (`ENDPOINTS`) | `src/services/api.js` |
-| Envio de mensagens, manutenção do `conversationId`, validação da resposta | `src/services/sophiaService.js` |
+| Envio de mensagens, manutenção do `conversationId`, validação da resposta | `src/services/priscilaService.js` |
 | Registro do relato (só com confirmação explícita), exige protocolo real na resposta | `src/services/reportService.js` |
-| Estado da conversa, bloqueio de envio simultâneo, retry, histórico na sessão | `src/hooks/useSophiaChat.js` |
-| Interface (visual original preservado) | `src/components/Sophia/*` |
+| Estado da conversa, bloqueio de envio simultâneo, retry, histórico na sessão | `src/hooks/usePriscilaChat.js` |
+| Interface (visual original preservado) | `src/components/Priscila/*` |
 | Ponto de extensão para autenticação (`setAuthTokenProvider`) | `src/services/api.js` |
 
 Comportamento garantido:
@@ -22,13 +22,13 @@ Comportamento garantido:
 - O histórico vive só **na memória** (sem `localStorage`/`sessionStorage`). Fechar e reabrir a janela mantém a conversa; sair da conta ou recarregar a página a apaga.
 - Nada é registrado sem o clique em **Confirmar e registrar**; o protocolo exibido é sempre o devolvido pelo backend.
 - Nenhum conteúdo de conversa é escrito em `console`/logs. Erros do servidor nunca têm o corpo repassado à tela.
-- Ações: editar o resumo, solicitar ajustes (vira nova mensagem à Sophia), rejeitar, confirmar, tentar novamente, editar mensagem que falhou, nova conversa (com confirmação).
+- Ações: editar o resumo, solicitar ajustes (vira nova mensagem à Priscila), rejeitar, confirmar, tentar novamente, editar mensagem que falhou, nova conversa (com confirmação).
 
 ## 2. Contratos PROPOSTOS (a alinhar com o backend)
 
 Nenhum destes endpoints existe ainda. Os caminhos são sugestões e ficam em `ENDPOINTS` (`api.js`); mudar um caminho é editar uma linha.
 
-### 2.1 Enviar mensagem — `POST /api/sophia/messages` *(proposta)*
+### 2.1 Enviar mensagem — `POST /api/priscila/messages` *(proposta)*
 
 Requisição:
 
@@ -99,9 +99,9 @@ Resposta esperada:
 1. Subir o backend (ex.: `http://localhost:8080`) com CORS liberado para o frontend.
 2. `cp .env.example .env.local` e ajustar `VITE_API_BASE_URL`. **Não** colocar segredos aqui.
 3. Ajustar `ENDPOINTS` em `src/services/api.js` conforme os caminhos reais.
-4. Se o contrato divergir, adaptar **somente** `sophiaService.js` (`parseSophiaResponse`) e `reportService.js`; a interface e o hook não precisam mudar.
+4. Se o contrato divergir, adaptar **somente** `priscilaService.js` (`parsePriscilaResponse`) e `reportService.js`; a interface e o hook não precisam mudar.
 5. A chave da OpenAI fica apenas no backend (variável de ambiente do servidor).
-6. Rodar `npm run dev`, abrir o painel, conversar com a Sophia e conferir o protocolo devolvido.
+6. Rodar `npm run dev`, abrir o painel, conversar com a Priscila e conferir o protocolo devolvido.
 7. Em produção, definir `VITE_API_BASE_URL` no build (`npm run build`) e servir tudo por HTTPS.
 
 ## 5. Como foi validado

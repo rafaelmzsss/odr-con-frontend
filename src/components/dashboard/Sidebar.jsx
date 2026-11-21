@@ -57,7 +57,7 @@ export default function Sidebar({ role, active, setActive, onExit, name }) {
       <div className="sidebar-bottom">
         <div className="privacy-card">
           <span>✧</span>
-          <strong>Conte com a Sophia</strong>
+          <strong>Conte com a Priscila</strong>
           <small>Sua assistente para encontrar novos caminhos.</small>
         </div>
 

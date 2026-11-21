@@ -6,7 +6,7 @@ const NAV = [
   { label: "Sobre nós", href: "#sobre" },
   { label: "Como funciona", href: "#como-funciona" },
   { label: "Soluções", href: "#solucoes" },
-  { label: "Conheça a Sophia", href: "#sophia", badge: "IA", icon: "sparkle" },
+  { label: "Conheça a Priscila", href: "#priscila", badge: "IA", icon: "sparkle" },
 ];
 
 export default function Header() {

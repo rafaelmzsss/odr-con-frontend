@@ -30,7 +30,7 @@ export default function ChatInput({
         placeholder={placeholder}
         maxLength={maxLength}
         disabled={disabled}
-        aria-label="Mensagem para a Sophia"
+        aria-label="Mensagem para a Priscila"
         autoComplete="off"
       />
       <button type="submit" aria-label="Enviar" disabled={disabled || !value.trim()}>

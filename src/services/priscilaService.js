@@ -1,5 +1,5 @@
 /**
- * Operações da conversa com a Sophia.
+ * Operações da conversa com a Priscila.
  *
  * O frontend apenas envia a mensagem ao backend e interpreta a resposta.
  * Quem consulta o modelo de IA é o backend; aqui não existe resposta
@@ -16,7 +16,7 @@ export const MAX_MESSAGE_LENGTH = 2000;
  * PENDENTE: confirmar a lista definitiva com a equipe de backend. Um status
  * desconhecido é tratado como resposta inesperada (nunca "adivinhado").
  */
-export const SOPHIA_STATUS = Object.freeze({
+export const PRISCILA_STATUS = Object.freeze({
   COLLECTING: "collecting",
   READY_FOR_REVIEW: "ready_for_review",
 });
@@ -40,16 +40,16 @@ export const SOPHIA_STATUS = Object.freeze({
  * @returns {Promise<{conversationId: string, reply: string, status: string, summary: object|null}>}
  */
 export async function sendMessage({ conversationId, message, signal }) {
-  const data = await request(ENDPOINTS.sophiaMessage, {
+  const data = await request(ENDPOINTS.PriscilaMessage, {
     body: { conversationId: conversationId ?? null, message },
     signal,
   });
 
-  return parseSophiaResponse(data, conversationId);
+  return parsePriscilaResponse(data, conversationId);
 }
 
 /** Valida a resposta; qualquer divergência vira "resposta inesperada". */
-function parseSophiaResponse(data, sentConversationId) {
+function parsePriscilaResponse(data, sentConversationId) {
   if (!data || typeof data !== "object") throw new ApiError("invalid_response");
 
   const reply = typeof data.reply === "string" ? data.reply.trim() : "";
@@ -60,12 +60,12 @@ function parseSophiaResponse(data, sentConversationId) {
 
   if (!reply || !conversationId) throw new ApiError("invalid_response");
 
-  if (!Object.values(SOPHIA_STATUS).includes(data.status)) {
+  if (!Object.values(PRISCILA_STATUS).includes(data.status)) {
     throw new ApiError("invalid_response");
   }
 
   let summary = null;
-  if (data.status === SOPHIA_STATUS.READY_FOR_REVIEW) {
+  if (data.status === PRISCILA_STATUS.READY_FOR_REVIEW) {
     summary = normalizeSummary(data.summary);
     if (!summary) throw new ApiError("invalid_response");
   }

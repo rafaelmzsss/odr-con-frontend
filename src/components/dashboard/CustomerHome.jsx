@@ -8,12 +8,12 @@ export default function CustomerHome({ cases, setActive, openChat, onSelectCase 
           <span className="eyebrow">SEU ESPAÇO DE ESCUTA</span>
           <h1>Olá! Que bom ter você por aqui.</h1>
           <p>
-            Acompanhe seus atendimentos ou converse com a Sophia
+            Acompanhe seus atendimentos ou converse com a Priscila
             para registrar uma nova situação.
           </p>
 
           <button className="primary-button" onClick={openChat}>
-            Conversar com a Sophia <span>✧</span>
+            Conversar com a Priscila <span>✧</span>
           </button>
         </div>
 
@@ -55,13 +55,13 @@ export default function CustomerHome({ cases, setActive, openChat, onSelectCase 
         <div>
           <strong>Não sabe por onde começar?</strong>
           <p>
-            A Sophia pode ajudar você a organizar seu relato
+            A Priscila pode ajudar você a organizar seu relato
             e entender os próximos passos.
           </p>
         </div>
 
         <button className="text-button" onClick={openChat}>
-          Falar com Sophia →
+          Falar com Priscila →
         </button>
       </div>
     </>

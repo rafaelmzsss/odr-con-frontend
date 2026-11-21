@@ -5,7 +5,7 @@ const STEPS = [
   },
   {
     title: "Abra espaço para o diálogo",
-    text: "A Sophia ajuda a organizar o relato e apoia uma conversa respeitosa.",
+    text: "A Priscila ajuda a organizar o relato e apoia uma conversa respeitosa.",
   },
   {
     title: "Construa o próximo passo",

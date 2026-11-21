@@ -647,7 +647,7 @@ button {
 }
 
 .art-sphere,
-.sophia-large {
+.priscila-large {
   color: #fff;
   background: radial-gradient(circle at 32% 25%,#e7f3d8,#a9c786 48%,#668b50);
   border-radius: 50%;
@@ -990,7 +990,7 @@ button {
   line-height: 1.7;
 }
 
-.sophia-large {
+.priscila-large {
   width: 110px;
   height: 110px;
   margin: 22px 0;
@@ -1154,7 +1154,7 @@ button {
   display: flex;
 }
 
-.sophia-avatar {
+.priscila-avatar {
   color: #d8e8c9;
   background: #ffffff20;
   border-radius: 50%;

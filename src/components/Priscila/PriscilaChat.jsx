@@ -1,25 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 
-import { useSophiaChat, CHAT_PHASE } from "../../hooks/useSophiaChat";
-import { MAX_MESSAGE_LENGTH } from "../../services/sophiaService";
+import { usePriscilaChat, CHAT_PHASE } from "../../hooks/usePriscilaChat";
+import { MAX_MESSAGE_LENGTH } from "../../services/priscilaService";
 
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 import TypingIndicator from "./TypingIndicator";
 import ReportSummary from "./ReportSummary";
 
-import "./Sophia.css";
+import "./Priscila.css";
 
 /**
- * Janela da Sophia. Apenas interface: o estado da conversa fica em
- * useSophiaChat e a comunicação com o backend em services/.
+ * Janela da Priscila. Apenas interface: o estado da conversa fica em
+ * usePriscilaChat e a comunicação com o backend em services/.
  *
  * Este componente permanece montado enquanto o usuário está no painel e
  * apenas deixa de renderizar quando fechado; por isso fechar e reabrir não
  * apaga a conversa.
  */
-export default function SophiaChat({ open, onClose, onRegistered, onTrackCase }) {
-  const chat = useSophiaChat({ onRegistered });
+export default function PriscilaChat({ open, onClose, onRegistered, onTrackCase }) {
+  const chat = usePriscilaChat({ onRegistered });
   const {
     messages,
     phase,
@@ -85,9 +85,9 @@ export default function SophiaChat({ open, onClose, onRegistered, onTrackCase })
   return (
     <section className="chat-window">
       <header className="chat-header">
-        <div className="sophia-avatar">✧</div>
+        <div className="priscila-avatar">✧</div>
         <div>
-          <strong>Sophia</strong>
+          <strong>Priscila</strong>
           <small><i /> Assistente virtual ODR-CON</small>
         </div>
         <button
@@ -100,7 +100,7 @@ export default function SophiaChat({ open, onClose, onRegistered, onTrackCase })
         >
           ↻
         </button>
-        <button type="button" onClick={onClose} aria-label="Fechar Sophia">×</button>
+        <button type="button" onClick={onClose} aria-label="Fechar Priscila">×</button>
       </header>
 
       <div className="chat-context">
@@ -171,7 +171,7 @@ export default function SophiaChat({ open, onClose, onRegistered, onTrackCase })
       )}
 
       <footer className="chat-foot">
-        Sophia pode cometer erros. Revise as informações antes de enviar.
+        Priscila pode cometer erros. Revise as informações antes de enviar.
       </footer>
     </section>
   );
