@@ -43,7 +43,8 @@ export default function AuthModal({ onClose, onEnter }) {
     role,
     (role === "empresa" ? form.name : personName) ||
       (role === "empresa" ? "Equipe Conecta" : form.email.split("@")[0]),
-    form.email
+    form.email,
+    { fullName: role === "empresa" ? form.name : personName }
   );
 };
 

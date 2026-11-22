@@ -31,6 +31,8 @@ export const ENDPOINTS = Object.freeze({
   PriscilaMessage: { method: "POST", path: "/api/priscila/messages" },
   // PROPOSTA: registra o relato APÓS confirmação explícita do usuário.
   reportRegister: { method: "POST", path: "/api/reports" },
+  // PROPOSTA: atualiza os dados de conta e dados pessoais do usuário logado.
+  profileUpdate: { method: "PATCH", path: "/api/me/profile" },
 });
 
 /* ------------------------------------------------------------------ */
@@ -46,6 +48,7 @@ const USER_MESSAGES = {
   unauthorized: "Sua sessão não é mais válida. Entre novamente para continuar.",
   forbidden: "Você não tem permissão para realizar esta ação.",
   rate_limited: "Muitas solicitações em pouco tempo. Aguarde um instante e tente novamente.",
+  conflict: "Esse nome de usuário ou e-mail já está em uso. Escolha outro e tente novamente.",
   client: "Não foi possível processar a solicitação. Revise as informações e tente novamente.",
   invalid_response: "Recebi uma resposta inesperada do servidor. Tente novamente.",
   aborted: "Solicitação cancelada.",
@@ -79,6 +82,7 @@ function kindFromStatus(status) {
   if (status === 401) return "unauthorized";
   if (status === 403) return "forbidden";
   if (status === 408) return "timeout";
+  if (status === 409) return "conflict";
   if (status === 429) return "rate_limited";
   if (status === 502 || status === 503 || status === 504) return "unavailable";
   if (status >= 500) return "server";

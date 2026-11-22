@@ -79,6 +79,27 @@ Resposta esperada:
 
 `protocol` é obrigatório; sem ele o frontend trata como erro e **não inventa um protocolo**. `status` é opcional.
 
+### 2.3 Atualizar perfil — `PATCH /api/me/profile` *(proposta)*
+
+Usado pelo modal **Editar informações** (pessoa física). Requisição (todos os campos são enviados; `phone` só com dígitos e pode ser vazio):
+
+```json
+{
+  "username": "amandacouto288",
+  "email": "amanda@exemplo.com",
+  "fullName": "Amanda Couto",
+  "socialName": "",
+  "city": "Carmópolis",
+  "state": "SE",
+  "phone": "79999990000",
+  "notifyByEmail": true
+}
+```
+
+Resposta esperada: o perfil já atualizado, no mesmo formato. Se faltar `username` ou `email`, o frontend trata como resposta inesperada.
+
+Enquanto o endpoint não existe, `PROFILE_BACKEND_READY` (`src/services/profileService.js`) fica `false` e o salvamento vale só para a sessão em memória (modo demonstração). Ao integrar, troque para `true`.
+
 ## 3. Decisões em aberto para a equipe de backend
 
 1. **Caminhos e métodos** de 2.1 e 2.2 (e códigos de erro: o frontend trata 401, 403, 408, 429, 4xx, 502/503/504 e 5xx).
@@ -93,6 +114,7 @@ Resposta esperada:
 10. **CORS**: o backend precisa liberar a origem do frontend (ex.: `http://localhost:5173` em desenvolvimento), ou usar um proxy do Vite (`server.proxy`) para evitar CORS em dev.
 11. **Limites e proteção**: o frontend limita a mensagem a 2000 caracteres (só conveniência); o backend deve impor limites próprios, rate limiting e moderação.
 12. **Outras telas ainda demonstrativas** (fora do escopo desta refatoração): lista "Meus atendimentos", consulta de protocolo, indicadores da empresa, login/cadastro. O caso criado após o registro é inserido só na lista local do painel; a lista real depende de um endpoint de consulta.
+13. **Perfil (2.3)**: caminho e método; `409` quando `username` ou `email` já estiverem em uso; unicidade e formato do `username` (o frontend aceita 3 a 20 caracteres: letras minúsculas, números e `_`); **troca de e-mail** (o e-mail também é o login: confirmar por link no novo endereço?); finalidade e retenção do telefone (hoje: recuperação de senha) e do envio de avisos por e-mail (`notifyByEmail`).
 
 ## 4. Como conectar ao Spring Boot
 
