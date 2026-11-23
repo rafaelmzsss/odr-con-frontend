@@ -1,9 +1,24 @@
+import { useState } from "react";
+
 import CaseCard from "./CaseCard";
 import Metric from "./Metric";
 import Status from "./Status";
 import ProtocolLookup from "./ProtocolLookup";
+import EditProfileModal from "./EditProfileModal";
 
-export default function GenericPage({ page, role, name, email, cases, setActive, onSelectCase }) {
+export default function GenericPage({
+  page,
+  role,
+  name,
+  email,
+  profile,
+  onUpdateProfile,
+  cases,
+  setActive,
+  onSelectCase,
+}) {
+  const [editOpen, setEditOpen] = useState(false);
+
     const titleMap = {
     atendimentos: role === "empresa" ? "Atendimentos" : "Meus atendimentos",
     historico: "Histórico de atendimentos",
@@ -215,14 +230,33 @@ export default function GenericPage({ page, role, name, email, cases, setActive,
                 ? "CNPJ ••••••••/0001-••"
                 : isAnonymous
                   ? "Sessão anônima, sem dados de identificação"
-                  : email}
+                  : profile?.username
+                    ? `@${profile.username} · ${email}`
+                    : email}
             </p>
             <span className="status status-green">Conta ativa</span>
           </div>
           {!isAnonymous && (
-            <button className="outline-button">Editar informações</button>
+            <button
+              className="outline-button"
+              onClick={
+                role !== "empresa" && profile
+                  ? () => setEditOpen(true)
+                  : undefined
+              }
+            >
+              Editar informações
+            </button>
           )}
         </div>
+
+        {editOpen && (
+          <EditProfileModal
+            user={profile}
+            onClose={() => setEditOpen(false)}
+            onSave={onUpdateProfile}
+          />
+        )}
 
         <div className="chart-card">
           <h3>Segurança e privacidade</h3>

@@ -18,10 +18,7 @@ export default function AuthModal({ onClose, onEnter }) {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
-    age: "",
-    name: "", // responsável (empresa)
-    company: "",
-    document: "", // CNPJ (empresa)
+    name: "", // colaborador
     email: "",
     password: "",
   });
@@ -43,7 +40,8 @@ export default function AuthModal({ onClose, onEnter }) {
     role,
     (role === "empresa" ? form.name : personName) ||
       (role === "empresa" ? "Equipe Conecta" : form.email.split("@")[0]),
-    form.email
+    form.email,
+    { fullName: role === "empresa" ? form.name : personName }
   );
 };
 
@@ -109,7 +107,7 @@ export default function AuthModal({ onClose, onEnter }) {
               className={role === "empresa" ? "selected" : ""}
               onClick={() => setRole("empresa")}
             >
-              ▣ Empresa
+              ▣ Colaborador
             </button>
           </div>
 
@@ -137,50 +135,15 @@ export default function AuthModal({ onClose, onEnter }) {
                   />
                 </div>
 
-                <Field
-                  label="Idade"
-                  name="age"
-                  type="number"
-                  inputMode="numeric"
-                  min="1"
-                  max="120"
-                  placeholder="Digite sua idade"
-                  value={form.age}
-                  onChange={update}
-                  required
-                />
               </>
             )}
 
             {mode === "cadastro" && role === "empresa" && (
               <Field
-                label="Nome do responsável"
+                label="Nome do colaborador"
                 name="name"
                 placeholder="Como podemos chamar você?"
                 value={form.name}
-                onChange={update}
-                required
-              />
-            )}
-
-            {role === "empresa" && (
-              <Field
-                label="Nome da empresa"
-                name="company"
-                placeholder="Razão social ou nome fantasia"
-                value={form.company}
-                onChange={update}
-                required={mode === "cadastro"}
-              />
-            )}
-
-            {mode === "cadastro" && role === "empresa" && (
-              <Field
-                label="CNPJ"
-                name="document"
-                inputMode="numeric"
-                placeholder="00.000.000/0000-00"
-                value={form.document}
                 onChange={update}
                 required
               />
