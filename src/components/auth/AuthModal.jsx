@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Brand from "../Brand";
+import { getErrorMessage } from "../../services/api";
+import { login, recoverPassword, register } from "../../services/authService";
 
 function Field({ label, ...props }) {
   return (
@@ -14,6 +16,8 @@ export default function AuthModal({ onClose, onEnter }) {
   const [role, setRole] = useState("pessoa");
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     firstName: "",
@@ -26,23 +30,30 @@ export default function AuthModal({ onClose, onEnter }) {
   const update = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const submit = (e) => {
+  const submit = async (e) => {
   e.preventDefault();
+  setError("");
+  setBusy(true);
+  try {
 
   if (mode === "recuperar") {
+    await recoverPassword(form.email);
     setMode("login");
+    setError("Se o e-mail estiver cadastrado, você receberá instruções para redefinir a senha.");
     return;
   }
 
   const personName = `${form.firstName} ${form.lastName}`.trim();
-
-  onEnter(
-    role,
-    (role === "empresa" ? form.name : personName) ||
-      (role === "empresa" ? "Equipe Conecta" : form.email.split("@")[0]),
-    form.email,
-    { fullName: role === "empresa" ? form.name : personName }
-  );
+  const fullName = role === "empresa" ? form.name.trim() : personName;
+  const session = mode === "cadastro"
+    ? await register({ email: form.email, password: form.password, role, fullName })
+    : await login({ email: form.email, password: form.password, role });
+  onEnter({ ...session, role, name: session.name || fullName || form.email.split("@")[0] });
+  } catch (err) {
+    setError(getErrorMessage(err));
+  } finally {
+    setBusy(false);
+  }
 };
 
   return (
@@ -199,20 +210,17 @@ export default function AuthModal({ onClose, onEnter }) {
             )}
 
             {mode === "recuperar" && (
-              <p className="info-note">
-                Informe seu e-mail acima. Enviaremos as instruções
-                para redefinir sua senha quando a recuperação estiver
-                integrada.
-              </p>
+              <p className="info-note">Informe seu e-mail para solicitar as instruções de redefinição.</p>
             )}
 
-            <button className="primary-button full" type="submit">
+            {error && <p className="info-note" role="alert">{error}</p>}
+            <button className="primary-button full" type="submit" disabled={busy}>
               {mode === "login"
                 ? "Entrar na plataforma"
                 : mode === "cadastro"
                   ? "Criar minha conta"
                   : "Continuar"}
-              <span>→</span>
+              <span>{busy ? "…" : "→"}</span>
             </button>
           </form>
 
@@ -220,7 +228,7 @@ export default function AuthModal({ onClose, onEnter }) {
             <button
               className="anonymous-button"
               type="button"
-              onClick={() => onEnter("pessoa", "Visitante anônimo")}
+              onClick={() => onEnter({ role: "pessoa", name: "Visitante anônimo", email: "" })}
             >
               <svg
                 width="16"

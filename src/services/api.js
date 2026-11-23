@@ -27,6 +27,9 @@ const DEFAULT_TIMEOUT_MS = 30_000;
  * contrato definitivo for fechado (ver docs/INTEGRACAO_BACKEND.md).
  */
 export const ENDPOINTS = Object.freeze({
+  authLogin: { method: "POST", path: "/api/auth/login" },
+  authRegister: { method: "POST", path: "/api/auth/register" },
+  authRecover: { method: "POST", path: "/api/auth/password/forgot" },
   // PROPOSTA: envia uma mensagem do usuário e recebe a resposta da Priscila.
   PriscilaMessage: { method: "POST", path: "/api/priscila/messages" },
   // PROPOSTA: registra o relato APÓS confirmação explícita do usuário.
