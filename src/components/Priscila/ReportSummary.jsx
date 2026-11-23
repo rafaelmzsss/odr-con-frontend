@@ -86,7 +86,7 @@ export default function ReportSummary({
         {active && !editing && (
           <>
             {!registrable && (
-              <p className="report-hint">Preencha ao menos a descrição para registrar.</p>
+              <p className="report-hint">Preencha todos os campos antes de registrar.</p>
             )}
             <div className="summary-actions">
               <button type="button" onClick={startEdit} disabled={busy}>

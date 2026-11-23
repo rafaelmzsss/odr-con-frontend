@@ -1,5 +1,3 @@
-import Icon from "./Icon";
-
 export default function Purpose() {
   return (
     <section className="purpose" id="sobre" aria-labelledby="purpose-title">

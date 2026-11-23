@@ -31,30 +31,29 @@ export default function AuthModal({ onClose, onEnter }) {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const submit = async (e) => {
-  e.preventDefault();
-  setError("");
-  setBusy(true);
-  try {
+    e.preventDefault();
+    setError("");
+    setBusy(true);
+    try {
+      if (mode === "recuperar") {
+        await recoverPassword(form.email);
+        setMode("login");
+        setError("Se o e-mail estiver cadastrado, você receberá instruções para redefinir a senha.");
+        return;
+      }
 
-  if (mode === "recuperar") {
-    await recoverPassword(form.email);
-    setMode("login");
-    setError("Se o e-mail estiver cadastrado, você receberá instruções para redefinir a senha.");
-    return;
-  }
-
-  const personName = `${form.firstName} ${form.lastName}`.trim();
-  const fullName = role === "empresa" ? form.name.trim() : personName;
-  const session = mode === "cadastro"
-    ? await register({ email: form.email, password: form.password, role, fullName })
-    : await login({ email: form.email, password: form.password, role });
-  onEnter({ ...session, role, name: session.name || fullName || form.email.split("@")[0] });
+      const personName = `${form.firstName} ${form.lastName}`.trim();
+      const fullName = role === "empresa" ? form.name.trim() : personName;
+      const session = mode === "cadastro"
+        ? await register({ email: form.email, password: form.password, role, fullName })
+        : await login({ email: form.email, password: form.password, role });
+      onEnter({ ...session, role, name: session.name || fullName || form.email.split("@")[0] });
   } catch (err) {
-    setError(getErrorMessage(err));
-  } finally {
-    setBusy(false);
-  }
-};
+      setError(getErrorMessage(err));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div
@@ -98,13 +97,17 @@ export default function AuthModal({ onClose, onEnter }) {
           <h2>
             {mode === "login"
               ? "Que bom ter você por aqui."
-              : "Crie seu acesso"}
+              : mode === "recuperar"
+                ? "Recuperar acesso"
+                : "Crie seu acesso"}
           </h2>
 
           <p className="muted">
             {mode === "login"
               ? "Entre para continuar sua jornada."
-              : "Escolha seu perfil e preencha seus dados."}
+              : mode === "recuperar"
+                ? "Informe seu e-mail para consultar a recuperação de senha."
+                : "Escolha seu perfil e preencha seus dados."}
           </p>
 
           <div className="role-switch">
@@ -171,7 +174,7 @@ export default function AuthModal({ onClose, onEnter }) {
               required
             />
 
-            <label className="field">
+            {mode !== "recuperar" && <label className="field">
               <span>Senha</span>
               <div className="password-wrap">
                 <input
@@ -197,7 +200,7 @@ export default function AuthModal({ onClose, onEnter }) {
                   {showPassword ? "Ocultar" : "Mostrar"}
                 </button>
               </div>
-            </label>
+            </label>}
 
             {mode === "login" && (
               <button
@@ -207,10 +210,6 @@ export default function AuthModal({ onClose, onEnter }) {
               >
                 Esqueci minha senha
               </button>
-            )}
-
-            {mode === "recuperar" && (
-              <p className="info-note">Informe seu e-mail para solicitar as instruções de redefinição.</p>
             )}
 
             {error && <p className="info-note" role="alert">{error}</p>}
@@ -225,28 +224,11 @@ export default function AuthModal({ onClose, onEnter }) {
           </form>
 
           {role === "pessoa" && mode === "login" && (
-            <button
-              className="anonymous-button"
-              type="button"
-              onClick={() => onEnter({ role: "pessoa", name: "Visitante anônimo", email: "" })}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
-                <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
-                <path d="M3 3l18 18" />
-              </svg>
-              Registrar relato sem me identificar
-            </button>
+            <p className="info-note">
+              Para conversar com a Priscila e registrar um relato, entre com
+              uma conta ou crie seu cadastro. O atendimento exige uma sessão
+              autenticada.
+            </p>
           )}
 
           <p className="auth-bottom">
