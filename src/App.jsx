@@ -8,6 +8,7 @@ import {
   getDisplayName,
   updateProfile,
 } from "./services/profileService";
+import { logout } from "./services/authService";
 
 import "./App.css";
 
@@ -34,14 +35,15 @@ export default function App() {
     };
   }, []);
   
-  const enter = (role, name, email = "", extra = {}) => {
+  const enter = ({ role, name, email = "", user }) => {
   setSession({
     role,
     name,
     email,
+    user,
     // Sessão anônima não tem e-mail, então não tem perfil para editar.
     profile: email
-      ? createInitialProfile({ email, fullName: extra.fullName ?? "" })
+      ? createInitialProfile({ email, fullName: name ?? "" })
       : null,
   });
   setAuthOpen(false);
@@ -67,7 +69,7 @@ export default function App() {
   email={session.email}
   profile={session.profile}
   onUpdateProfile={saveProfile}
-  onExit={() => setSession(null)}
+  onExit={() => { logout(); setSession(null); }}
 />
   ) : (
     <>

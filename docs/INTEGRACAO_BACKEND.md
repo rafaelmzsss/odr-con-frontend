@@ -28,6 +28,15 @@ Comportamento garantido:
 
 Nenhum destes endpoints existe ainda. Os caminhos são sugestões e ficam em `ENDPOINTS` (`api.js`); mudar um caminho é editar uma linha.
 
+### 2.0 Autenticação (contrato proposto pelo frontend)
+
+- `POST /api/auth/login`: `{ "email": "...", "password": "...", "role": "pessoa|empresa" }`
+- `POST /api/auth/register`: `{ "email": "...", "password": "...", "role": "pessoa|empresa", "fullName": "..." }`
+- `POST /api/auth/password/forgot`: `{ "email": "..." }`
+- Login/cadastro devem responder `{ "accessToken": "...", "user": { "role": "pessoa|empresa", "fullName": "...", "email": "..." } }` (aceita também `token`/`usuario`). O token fica em memória e segue como Bearer nas chamadas seguintes. A sessão é encerrada ao recarregar a página.
+
+Esses nomes são uma proposta porque o código do backend não está neste repositório. A equipe deve alinhar caminhos, campos, enumerações e formato de token antes da publicação.
+
 ### 2.1 Enviar mensagem — `POST /api/priscila/messages` *(proposta)*
 
 Requisição:
