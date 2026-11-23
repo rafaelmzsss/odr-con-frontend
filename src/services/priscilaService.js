@@ -12,9 +12,7 @@ import { normalizeSummary } from "./reportService";
 export const MAX_MESSAGE_LENGTH = 2000;
 
 /**
- * Estados da conversa informados pelo backend.
- * PENDENTE: confirmar a lista definitiva com a equipe de backend. Um status
- * desconhecido é tratado como resposta inesperada (nunca "adivinhado").
+ * Estados de conversa definidos pelo backend.
  */
 export const PRISCILA_STATUS = Object.freeze({
   COLLECTING: "collecting",
@@ -24,14 +22,9 @@ export const PRISCILA_STATUS = Object.freeze({
 /**
  * Envia uma mensagem do usuário.
  *
- * PROPOSTA de contrato (pendente de alinhamento):
- *   Envio:    { conversationId: string|null, message: string }
- *   Resposta: { conversationId, reply, status, summary? }
- *             `summary` é obrigatório quando status = "ready_for_review".
- *
- * PENDENTE: na 1ª mensagem enviamos `conversationId: null` e o backend cria
- * o identificador. Se a equipe preferir que o frontend gere o ID (ou que
- * exista um endpoint de "iniciar conversa"), ajuste aqui e em api.js.
+ * Envio:    { conversationId: string|null, message: string }
+ * Resposta: { conversationId, reply, status, summary? }
+ *           `summary` é obrigatório quando status = "ready_for_review".
  *
  * @param {object} params
  * @param {string|null} params.conversationId
@@ -40,7 +33,7 @@ export const PRISCILA_STATUS = Object.freeze({
  * @returns {Promise<{conversationId: string, reply: string, status: string, summary: object|null}>}
  */
 export async function sendMessage({ conversationId, message, signal }) {
-  const data = await request(ENDPOINTS.PriscilaMessage, {
+  const data = await request(ENDPOINTS.priscilaMessage, {
     body: { conversationId: conversationId ?? null, message },
     signal,
   });
