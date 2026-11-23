@@ -1,0 +1,290 @@
+/* MODAL "EDITAR INFORMAÇÕES"
+   Reaproveita: .modal-backdrop (fundo desfocado), .icon-close, .eyebrow,
+   .muted, .role-switch (abas), .field, .password-wrap, .auth-form,
+   .primary-button e .outline-button, todos definidos em App.css. */
+
+.epm-dialog {
+  position: relative;
+  width: min(480px, 100%);
+  max-height: calc(100vh - 44px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 28px 90px #0b201a55;
+  overflow: hidden;
+  animation: epm-pop .2s ease-out;
+}
+
+@keyframes epm-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .epm-dialog {
+    animation: none;
+  }
+}
+
+.epm-header {
+  padding: 28px 30px 0;
+}
+
+.epm-header h2 {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -.04em;
+  margin: 4px 0 6px;
+}
+
+.epm-header .muted {
+  font-size: 12px;
+  margin: 0 0 18px;
+}
+
+.role-switch.epm-tabs {
+  margin: 0 30px 4px;
+}
+
+.epm-tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.epm-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c0564a;
+}
+
+/* Formulário */
+
+.epm-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.epm-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 30px 6px;
+}
+
+.epm-body [hidden] {
+  display: none;
+}
+
+.epm-form .field select {
+  height: 43px;
+  border: 1px solid #dce5d6;
+  border-radius: 7px;
+  padding: 0 10px;
+  outline: none;
+  color: #1a3a2e;
+  font-size: 12px;
+  background: #fff;
+}
+
+.epm-form .field select:focus {
+  border-color: #87a66c;
+  box-shadow: 0 0 0 3px #87a66c20;
+}
+
+.epm-optional {
+  font-style: normal;
+  font-weight: 400;
+  color: #89958b;
+}
+
+.epm-msg {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #89958b;
+}
+
+.epm-msg.error {
+  color: #b3402f;
+}
+
+.epm-form .field input[aria-invalid="true"],
+.epm-form .field select[aria-invalid="true"],
+.epm-affix.is-invalid {
+  border-color: #c0564a;
+}
+
+.epm-form .field input[aria-invalid="true"]:focus,
+.epm-form .field select[aria-invalid="true"]:focus,
+.epm-affix.is-invalid:focus-within {
+  box-shadow: 0 0 0 3px #c0564a20;
+}
+
+/* Campo com prefixo "@" (reaproveita .password-wrap) */
+
+.epm-affix {
+  padding-right: 0;
+}
+
+.epm-at {
+  padding-left: 13px;
+  color: #89958b;
+  font-size: 12px;
+}
+
+.epm-form .epm-affix input {
+  padding-left: 4px;
+}
+
+/* A borda verde + sombra suave já indicam o foco; tira o outline global do index.css */
+.epm-form .field input:focus-visible,
+.epm-form .field select:focus-visible {
+  outline: none;
+}
+
+.epm-city-row {
+  display: grid;
+  grid-template-columns: 1fr 96px;
+  gap: 12px;
+}
+
+/* Preferência de contato */
+
+.epm-pref {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: #f2f6ec;
+  border-radius: 9px;
+  font-size: 11px;
+}
+
+.epm-switch {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.epm-switch-text {
+  display: grid;
+  gap: 3px;
+  font-size: 12px;
+  color: #34483b;
+}
+
+.epm-switch-text small {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #687c62;
+}
+
+.epm-switch input {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 38px;
+  height: 22px;
+  margin: 1px 0 0;
+  border-radius: 999px;
+  background: #cfdac7;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.epm-switch input::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform .15s;
+}
+
+.epm-switch input:checked {
+  background: #1a3a2e;
+}
+
+.epm-switch input:checked::before {
+  transform: translateX(16px);
+}
+
+.epm-submit-error {
+  margin: 12px 0 6px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  background: #fbeeeb;
+  color: #b3402f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Rodapé */
+
+.epm-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 30px 26px;
+}
+
+.epm-footer button:disabled {
+  opacity: .6;
+  cursor: progress;
+}
+
+.epm-discard-text {
+  margin: 0 auto 0 0;
+  font-size: 12px;
+  color: #718078;
+}
+
+.outline-button.epm-danger {
+  color: #b3402f;
+  border-color: #ebc9c2;
+}
+
+.outline-button.epm-danger:hover {
+  background: #fbeeeb;
+}
+
+@media (max-width: 480px) {
+  .epm-header,
+  .epm-body,
+  .epm-footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .role-switch.epm-tabs {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .epm-footer {
+    flex-wrap: wrap;
+  }
+
+  .epm-discard-text {
+    flex-basis: 100%;
+  }
+}
