@@ -8,10 +8,8 @@
 import { ENDPOINTS, ApiError, request } from "./api";
 
 /**
- * ⚠️ MODO DEMONSTRAÇÃO: enquanto o endpoint de perfil não existir no backend
- * (ver docs/INTEGRACAO_BACKEND.md, seção 2.3), o salvamento acontece só na
- * sessão em memória, como o login e o cadastro. Quando o backend estiver
- * pronto, troque para `true`: `updateProfile` passa a chamar o servidor.
+ * MODO DEMONSTRAÇÃO: o endpoint de perfil ainda não existe no backend.
+ * As alterações ficam apenas na sessão atual.
  */
 export const PROFILE_BACKEND_READY = false;
 
@@ -134,7 +132,7 @@ function normalizeProfile(raw) {
 /**
  * Salva o perfil e devolve a versão final dos dados.
  *
- * PROPOSTA de contrato (pendente de alinhamento): PATCH /api/me/profile
+ * Contrato futuro: PATCH /api/me/profile
  * com o payload de `toProfilePayload`; resposta: o perfil atualizado.
  * 409 = nome de usuário ou e-mail já em uso.
  *

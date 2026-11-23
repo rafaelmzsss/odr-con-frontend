@@ -41,15 +41,14 @@ export function normalizeSummary(raw) {
 
 /** Regra mínima de interface; o backend faz a validação definitiva. */
 export function canRegister(summary) {
-  return Boolean(summary?.description?.trim());
+  return REPORT_FIELDS.every(({ key }) => Boolean(summary?.[key]?.trim()));
 }
 
 /**
  * Registra o relato confirmado e devolve o protocolo gerado pelo backend.
  *
- * PROPOSTA de contrato (pendente de alinhamento):
- *   Envio:    { conversationId, summary: { company, category, description, requestedSolution } }
- *   Resposta: { protocol: "..." }   // opcionalmente "status"
+ * Contrato: { conversationId, summary: { company, category, description, requestedSolution } }
+ * Resposta: { protocol: "...", status: "registered" }
  *
  * Se a resposta não trouxer um protocolo, lança erro: jamais fabricamos um.
  *

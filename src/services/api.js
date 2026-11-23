@@ -16,25 +16,22 @@ const rawBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "";
 export const API_BASE_URL = String(rawBaseUrl).trim().replace(/\/+$/, "");
 export const isApiConfigured = API_BASE_URL !== "";
 
-// Uma IA pode levar alguns segundos; acima disso consideramos falha.
-const DEFAULT_TIMEOUT_MS = 30_000;
+// O backend aceita até 60 s de resposta do provedor de IA.
+const DEFAULT_TIMEOUT_MS = 70_000;
 
 /**
  * Rotas e métodos usados pelo frontend, em um único lugar.
  *
- * ⚠️ PENDENTE COM A EQUIPE DE BACKEND: os caminhos abaixo são PROPOSTAS para
- * alinhamento. Não existem endpoints confirmados. Ajuste aqui quando o
- * contrato definitivo for fechado (ver docs/INTEGRACAO_BACKEND.md).
+ * Contratos implementados pelo backend Spring Boot.
  */
 export const ENDPOINTS = Object.freeze({
   authLogin: { method: "POST", path: "/api/auth/login" },
   authRegister: { method: "POST", path: "/api/auth/register" },
   authRecover: { method: "POST", path: "/api/auth/password/forgot" },
-  // PROPOSTA: envia uma mensagem do usuário e recebe a resposta da Priscila.
-  PriscilaMessage: { method: "POST", path: "/api/priscila/messages" },
-  // PROPOSTA: registra o relato APÓS confirmação explícita do usuário.
+  priscilaMessage: { method: "POST", path: "/api/priscila/messages" },
+  // Registra o relato APÓS confirmação explícita do usuário.
   reportRegister: { method: "POST", path: "/api/reports" },
-  // PROPOSTA: atualiza os dados de conta e dados pessoais do usuário logado.
+  // Ainda não implementado no backend.
   profileUpdate: { method: "PATCH", path: "/api/me/profile" },
 });
 
@@ -52,6 +49,7 @@ const USER_MESSAGES = {
   forbidden: "Você não tem permissão para realizar esta ação.",
   rate_limited: "Muitas solicitações em pouco tempo. Aguarde um instante e tente novamente.",
   conflict: "Esse nome de usuário ou e-mail já está em uso. Escolha outro e tente novamente.",
+  recovery_not_configured: "A recuperação de senha ainda não está configurada; nenhum e-mail foi enviado.",
   client: "Não foi possível processar a solicitação. Revise as informações e tente novamente.",
   invalid_response: "Recebi uma resposta inesperada do servidor. Tente novamente.",
   aborted: "Solicitação cancelada.",
@@ -93,17 +91,17 @@ function kindFromStatus(status) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Autenticação (preparação para o futuro)                             */
+/* Autenticação                                                        */
 /* ------------------------------------------------------------------ */
 
 let authTokenProvider = null;
 
 /**
  * Registra uma função que devolve o token de acesso atual (pode ser async).
- * Quando existir autenticação real, basta chamar `setAuthTokenProvider` uma
- * vez; todas as requisições passam a enviar `Authorization: Bearer ...`.
+ * O authService registra o provider; as requisições protegidas enviam
+ * `Authorization: Bearer ...`.
  * O token deve ficar em memória (ou em cookie HttpOnly gerido pelo backend),
- * nunca em log. Hoje nenhum provider é registrado.
+ * nunca em log nem em armazenamento persistente do navegador.
  */
 export function setAuthTokenProvider(provider) {
   authTokenProvider = typeof provider === "function" ? provider : null;

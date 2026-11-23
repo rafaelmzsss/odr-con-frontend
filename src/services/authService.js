@@ -33,7 +33,13 @@ export async function register({ email, password, role, fullName }) {
 }
 
 export function recoverPassword(email) {
-  return request(ENDPOINTS.authRecover, { body: { email: email.trim().toLowerCase() } });
+  return request(ENDPOINTS.authRecover, { body: { email: email.trim().toLowerCase() } })
+    .then((data) => {
+      if (data?.status === "not_configured") {
+        throw new ApiError("recovery_not_configured");
+      }
+      return data;
+    });
 }
 
 export function logout() {
