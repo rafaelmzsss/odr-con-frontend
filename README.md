@@ -24,8 +24,14 @@ npm run dev
 
 Copie `.env.example` para `.env.local` e defina `VITE_API_BASE_URL` (URL do backend). Nunca coloque chaves ou segredos em variáveis `VITE_*`.
 
+## Publicar no Render
+
+O `render.yaml` configura um Static Site com build `npm ci && npm run build`, publicação de `dist` e fallback SPA para `index.html`. Configure `VITE_API_BASE_URL` no Render com a URL HTTPS pública do backend. Essa variável é incorporada no build, então alterá-la exige um novo deploy.
+
+O backend Spring Boot precisa liberar CORS para a origem exata do site Render, aceitar HTTPS e implementar os endpoints descritos em `docs/INTEGRACAO_BACKEND.md`. O Render hospeda somente este frontend; não cria o backend nem as tabelas do banco.
+
 ## Dados e integrações
 
-Esta entrega é um protótipo navegável de frontend. Login, cadastro, permissões, persistência de dados, envio de reclamações, notificações, filtros reais, relatórios e IA da Priscila ainda usam conteúdo demonstrativo ou controles visuais. Para produção, conectar os formulários e ações aos endpoints do backend, validar os dados no servidor e implementar autenticação/autorização por perfil. O fluxo anônimo também precisa de regras de privacidade e protocolo definidas no backend.
+Login, cadastro e recuperação de senha chamam endpoints propostos em `docs/INTEGRACAO_BACKEND.md`; a sessão usa token em memória e o envia em chamadas autenticadas. O backend precisa implementar esses contratos e armazenar senhas somente como hashes fortes. Equipe/colaboradores e outros módulos ainda são demonstrativos até terem endpoints alinhados. A IA da Priscila só funciona quando o endpoint de mensagens chama o provedor de IA no servidor; nenhuma chave de IA deve ir para o frontend.
 
 A opção de login/cadastro diferencia os perfis de pessoa física e empresa. A equipe da empresa é gerenciada dentro da área corporativa, com perfis de administradora, gestor e atendente como exemplos visuais.
