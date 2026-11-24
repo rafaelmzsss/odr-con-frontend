@@ -39,15 +39,19 @@ export default function CustomerHome({ cases, setActive, openChat, onSelectCase 
         </button>
       </div>
 
-      <div className="case-grid">
-        {cases.slice(0, 3).map(c => (
-          <CaseCard
-            key={c.id}
-            item={c}
-            onClick={() => onSelectCase(c)}
-          />
-        ))}
-      </div>
+      {cases.length ? (
+        <div className="case-grid">
+          {cases.slice(0, 3).map((c) => (
+            <CaseCard key={c.id} item={c} onClick={() => onSelectCase(c)} />
+          ))}
+        </div>
+      ) : (
+        <div className="data-empty-state customer-home-empty">
+          <span aria-hidden="true">✧</span>
+          <h3>Você ainda não tem atendimentos</h3>
+          <p>Quando um atendimento for registrado, as informações aparecerão aqui para você acompanhar.</p>
+        </div>
+      )}
 
       <div className="tip-panel">
         <span className="tip-icon">✧</span>

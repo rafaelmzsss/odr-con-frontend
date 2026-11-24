@@ -163,6 +163,29 @@ export default function AuthModal({ onClose, onEnter }) {
               />
             )}
 
+            {role === "empresa" && (
+              <Field
+                label="Nome da empresa"
+                name="company"
+                placeholder="Razão social ou nome fantasia"
+                value={form.company}
+                onChange={update}
+                required={mode === "cadastro"}
+              />
+            )}
+
+            {mode === "cadastro" && role === "empresa" && (
+              <Field
+                label="CNPJ"
+                name="document"
+                inputMode="numeric"
+                placeholder="00.000.000/0000-00"
+                value={form.document}
+                onChange={update}
+                required
+              />
+            )}
+
             <Field
               label="E-mail"
               name="email"

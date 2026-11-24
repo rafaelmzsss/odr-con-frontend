@@ -43,8 +43,7 @@ export default function ProtocolLookup({ cases }) {
 
         {result === false && (
           <p className="protocol-error">
-            Não encontramos esse protocolo na demonstração.
-            Confira o código e tente novamente.
+            Não encontramos esse protocolo. Confira o código e tente novamente.
           </p>
         )}
 
