@@ -224,10 +224,19 @@ export default function AuthModal({ onClose, onEnter }) {
           </form>
 
           {role === "pessoa" && mode === "login" && (
+            <button
+              type="button"
+              className="anonymous-button"
+              onClick={() => onEnter({ role: "pessoa", name: "Visitante anônimo", email: "", user: null })}
+            >
+              Conversar com a Priscila anonimamente
+            </button>
+          )}
+
+          {role === "pessoa" && mode === "login" && (
             <p className="info-note">
-              Para conversar com a Priscila e registrar um relato, entre com
-              uma conta ou crie seu cadastro. O atendimento exige uma sessão
-              autenticada.
+              Entre com sua conta ou converse anonimamente com a Priscila.
+              Para acompanhar atendimentos, crie uma conta.
             </p>
           )}
 

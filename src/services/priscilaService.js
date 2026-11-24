@@ -32,10 +32,11 @@ export const PRISCILA_STATUS = Object.freeze({
  * @param {AbortSignal} [params.signal]
  * @returns {Promise<{conversationId: string, reply: string, status: string, summary: object|null}>}
  */
-export async function sendMessage({ conversationId, message, signal }) {
-  const data = await request(ENDPOINTS.priscilaMessage, {
+export async function sendMessage({ conversationId, message, signal, anonymous = false }) {
+  const data = await request(anonymous ? ENDPOINTS.priscilaAnonymousMessage : ENDPOINTS.priscilaMessage, {
     body: { conversationId: conversationId ?? null, message },
     signal,
+    skipAuth: anonymous,
   });
 
   return parsePriscilaResponse(data, conversationId);
