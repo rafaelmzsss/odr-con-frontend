@@ -29,8 +29,10 @@ export const ENDPOINTS = Object.freeze({
   authRegister: { method: "POST", path: "/api/auth/register" },
   authRecover: { method: "POST", path: "/api/auth/password/forgot" },
   priscilaMessage: { method: "POST", path: "/api/priscila/messages" },
+  priscilaAnonymousMessage: { method: "POST", path: "/api/priscila/anonymous/messages" },
   // Registra o relato APÓS confirmação explícita do usuário.
   reportRegister: { method: "POST", path: "/api/reports" },
+  reportRegisterAnonymous: { method: "POST", path: "/api/reports/anonymous" },
   // Ainda não implementado no backend.
   profileUpdate: { method: "PATCH", path: "/api/me/profile" },
 });
@@ -119,7 +121,7 @@ export function setAuthTokenProvider(provider) {
  * @returns {Promise<unknown>} corpo JSON (ou null em 204)
  * @throws {ApiError}
  */
-export async function request(endpoint, { body, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
+export async function request(endpoint, { body, signal, timeoutMs = DEFAULT_TIMEOUT_MS, skipAuth = false } = {}) {
   if (!isApiConfigured) throw new ApiError("not_configured");
 
   const controller = new AbortController();
@@ -140,7 +142,7 @@ export async function request(endpoint, { body, signal, timeoutMs = DEFAULT_TIME
     const headers = { Accept: "application/json" };
     if (body !== undefined) headers["Content-Type"] = "application/json";
 
-    const token = await authTokenProvider?.();
+    const token = skipAuth ? null : await authTokenProvider?.();
     if (token) headers.Authorization = `Bearer ${token}`;
 
     let response;

@@ -41,6 +41,7 @@ export default function App() {
     name,
     email,
     anonymous: !email,
+    user,
     // Sessão anônima não tem e-mail, então não tem perfil para editar.
     profile: email
       ? createInitialProfile({ email, fullName: name ?? "" })

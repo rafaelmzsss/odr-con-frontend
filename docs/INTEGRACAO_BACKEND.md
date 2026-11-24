@@ -10,11 +10,13 @@ O frontend usa a API Spring Boot deste workspace. Os serviços HTTP ficam em `sr
 | Entrar | `POST /api/auth/login` | Pública |
 | Solicitar recuperação | `POST /api/auth/password/forgot` | Pública; backend ainda não envia e-mail |
 | Conversar com Priscila | `POST /api/priscila/messages` | Pessoa autenticada |
-| Confirmar e registrar relato | `POST /api/reports` | Pessoa autenticada |
+| Conversar anonimamente | `POST /api/priscila/anonymous/messages` | Pública; não envia token |
+| Confirmar relato autenticado | `POST /api/reports` | Pessoa autenticada |
+| Confirmar relato anônimo | `POST /api/reports/anonymous` | Pública; não envia token |
 
 Login e cadastro enviam `{ email, password, role, fullName }` (no login, sem `fullName`) e recebem `{ accessToken, user: { role, fullName, email } }`. A primeira mensagem usa `conversationId: null`; o backend cria a conversa e devolve `conversationId`, `reply`, `status` e, quando pronta para revisão, `summary`. O relato só é enviado após confirmação e a tela mostra o protocolo devolvido pelo servidor.
 
-As rotas de conversa e registro exigem perfil `pessoa`. O frontend não oferece mais entrada anônima para esse fluxo, e não exibe a Priscila no painel de empresa, pois a API não autoriza esses casos.
+O botão “Conversar com a Priscila anonimamente” cria uma sessão local sem login. As chamadas anônimas usam rotas públicas separadas e não enviam token. A conversa é identificada por um UUID mantido apenas durante a sessão; ao recarregar a página, ela não pode ser retomada. Ao registrar o relato, guarde o protocolo, pois o acompanhamento de atendimentos exige uma conta. As rotas autenticadas continuam disponíveis para pessoas com login.
 
 ## Executar localmente
 
