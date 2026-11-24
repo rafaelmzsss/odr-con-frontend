@@ -43,7 +43,7 @@ const newId = () => `msg-${++messageSeq}`;
 
 const createGreeting = () => ({ id: newId(), from: "priscila", text: GREETING_TEXT, local: true });
 
-export function usePriscilaChat({ onRegistered } = {}) {
+export function usePriscilaChat({ onRegistered, anonymous = false } = {}) {
   const [messages, setMessages] = useState(() => [createGreeting()]);
   const [conversationId, setConversationId] = useState(null);
   const [phase, setPhase] = useState(CHAT_PHASE.COLLECTING);
@@ -86,6 +86,7 @@ export function usePriscilaChat({ onRegistered } = {}) {
           conversationId: conversationIdRef.current,
           message: text,
           signal: controller.signal,
+          anonymous,
         });
         if (session !== sessionRef.current) return;
 
@@ -123,7 +124,7 @@ export function usePriscilaChat({ onRegistered } = {}) {
         }
       }
     },
-    [patchMessage]
+    [patchMessage, anonymous]
   );
 
   /** Envia o texto do usuário. Devolve true se foi aceito (para limpar o campo). */
@@ -214,6 +215,7 @@ export function usePriscilaChat({ onRegistered } = {}) {
         summary: active.report,
         userConfirmed: true,
         signal: controller.signal,
+        anonymous,
       });
       if (session !== sessionRef.current) return;
 
@@ -224,7 +226,9 @@ export function usePriscilaChat({ onRegistered } = {}) {
           id: newId(),
           from: "priscila",
           local: true,
-          text: `Seu relato foi registrado. O protocolo é ${result.protocol}. Você poderá acompanhar o andamento na área de atendimentos.`,
+          text: anonymous
+            ? "Seu relato foi registrado. Guarde o protocolo " + result.protocol + "; ele é seu comprovante de registro anônimo."
+            : `Seu relato foi registrado. O protocolo é ${result.protocol}. Você poderá acompanhar o andamento na área de atendimentos.`,
         },
       ]);
       setRegistration({ protocol: result.protocol });
@@ -245,7 +249,7 @@ export function usePriscilaChat({ onRegistered } = {}) {
         abortRef.current = null;
       }
     }
-  }, [messages, patchMessage, phase]);
+  }, [messages, patchMessage, phase, anonymous]);
 
   const dismissError = useCallback(() => {
     setError((current) => (current?.type === "register" ? null : current));

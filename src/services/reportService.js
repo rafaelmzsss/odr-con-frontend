@@ -59,7 +59,7 @@ export function canRegister(summary) {
  * @param {AbortSignal} [params.signal]
  * @returns {Promise<{protocol: string, status: string|null}>}
  */
-export async function registerReport({ conversationId, summary, userConfirmed, signal }) {
+export async function registerReport({ conversationId, summary, userConfirmed, signal, anonymous = false }) {
   if (userConfirmed !== true) {
     throw new Error("O registro exige confirmação explícita do usuário.");
   }
@@ -67,9 +67,10 @@ export async function registerReport({ conversationId, summary, userConfirmed, s
   const cleanSummary = normalizeSummary(summary);
   if (!conversationId || !cleanSummary) throw new ApiError("client");
 
-  const data = await request(ENDPOINTS.reportRegister, {
+  const data = await request(anonymous ? ENDPOINTS.reportRegisterAnonymous : ENDPOINTS.reportRegister, {
     body: { conversationId, summary: cleanSummary },
     signal,
+    skipAuth: anonymous,
   });
 
   const protocol = typeof data?.protocol === "string" ? data.protocol.trim() : "";
