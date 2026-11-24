@@ -39,6 +39,7 @@ export default function App() {
     role,
     name,
     email,
+    anonymous: !email,
     // Sessão anônima não tem e-mail, então não tem perfil para editar.
     profile: email
       ? createInitialProfile({ email, fullName: extra.fullName ?? "" })
@@ -65,6 +66,7 @@ export default function App() {
   role={session.role}
   name={session.name}
   email={session.email}
+  anonymous={session.anonymous}
   profile={session.profile}
   onUpdateProfile={saveProfile}
   onExit={() => setSession(null)}
