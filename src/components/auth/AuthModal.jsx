@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Brand from "../Brand";
+import { getErrorMessage } from "../../services/api";
+import { login, recoverPassword, register } from "../../services/authService";
 
 function Field({ label, ...props }) {
   return (
@@ -14,6 +16,8 @@ export default function AuthModal({ onClose, onEnter }) {
   const [role, setRole] = useState("pessoa");
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     firstName: "",
@@ -26,24 +30,30 @@ export default function AuthModal({ onClose, onEnter }) {
   const update = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const submit = (e) => {
-  e.preventDefault();
+  const submit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setBusy(true);
+    try {
+      if (mode === "recuperar") {
+        await recoverPassword(form.email);
+        setMode("login");
+        setError("Se o e-mail estiver cadastrado, você receberá instruções para redefinir a senha.");
+        return;
+      }
 
-  if (mode === "recuperar") {
-    setMode("login");
-    return;
-  }
-
-  const personName = `${form.firstName} ${form.lastName}`.trim();
-
-  onEnter(
-    role,
-    (role === "empresa" ? form.name : personName) ||
-      (role === "empresa" ? "Equipe Conecta" : form.email.split("@")[0]),
-    form.email,
-    { fullName: role === "empresa" ? form.name : personName }
-  );
-};
+      const personName = `${form.firstName} ${form.lastName}`.trim();
+      const fullName = role === "empresa" ? form.name.trim() : personName;
+      const session = mode === "cadastro"
+        ? await register({ email: form.email, password: form.password, role, fullName })
+        : await login({ email: form.email, password: form.password, role });
+      onEnter({ ...session, role, name: session.name || fullName || form.email.split("@")[0] });
+  } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div
@@ -87,13 +97,17 @@ export default function AuthModal({ onClose, onEnter }) {
           <h2>
             {mode === "login"
               ? "Que bom ter você por aqui."
-              : "Crie seu acesso"}
+              : mode === "recuperar"
+                ? "Recuperar acesso"
+                : "Crie seu acesso"}
           </h2>
 
           <p className="muted">
             {mode === "login"
               ? "Entre para continuar sua jornada."
-              : "Escolha seu perfil e preencha seus dados."}
+              : mode === "recuperar"
+                ? "Informe seu e-mail para consultar a recuperação de senha."
+                : "Escolha seu perfil e preencha seus dados."}
           </p>
 
           <div className="role-switch">
@@ -160,7 +174,7 @@ export default function AuthModal({ onClose, onEnter }) {
               required
             />
 
-            <label className="field">
+            {mode !== "recuperar" && <label className="field">
               <span>Senha</span>
               <div className="password-wrap">
                 <input
@@ -186,7 +200,7 @@ export default function AuthModal({ onClose, onEnter }) {
                   {showPassword ? "Ocultar" : "Mostrar"}
                 </button>
               </div>
-            </label>
+            </label>}
 
             {mode === "login" && (
               <button
@@ -198,21 +212,14 @@ export default function AuthModal({ onClose, onEnter }) {
               </button>
             )}
 
-            {mode === "recuperar" && (
-              <p className="info-note">
-                Informe seu e-mail acima. Enviaremos as instruções
-                para redefinir sua senha quando a recuperação estiver
-                integrada.
-              </p>
-            )}
-
-            <button className="primary-button full" type="submit">
+            {error && <p className="info-note" role="alert">{error}</p>}
+            <button className="primary-button full" type="submit" disabled={busy}>
               {mode === "login"
                 ? "Entrar na plataforma"
                 : mode === "cadastro"
                   ? "Criar minha conta"
                   : "Continuar"}
-              <span>→</span>
+              <span>{busy ? "…" : "→"}</span>
             </button>
           </form>
 

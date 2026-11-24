@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import Sidebar, { menuCustomer, menuCompany } from "./Sidebar";
+import Sidebar from "./Sidebar";
+import { menuCustomer, menuCompany } from "./menus";
 import CompanyHome from "./CompanyHome";
 import CustomerHome from "./CustomerHome";
 import GenericPage from "./GenericPage";
@@ -154,13 +155,15 @@ export default function Dashboard({ role, name, email, profile, anonymous, onUpd
         </div>
       </main>
 
-      <button
-        className="chat-launcher"
-        onClick={() => setChatOpen(!chatOpen)}
-      >
-        <span>✧</span>
-        {chatOpen ? "Fechar Priscila" : "Falar com Priscila"}
-      </button>
+      {role === "pessoa" && (
+        <button
+          className="chat-launcher"
+          onClick={() => setChatOpen(!chatOpen)}
+        >
+          <span>✧</span>
+          {chatOpen ? "Fechar Priscila" : "Falar com Priscila"}
+        </button>
+      )}
 
       {selectedCase && (
         <CaseDetailDrawer
@@ -174,12 +177,14 @@ export default function Dashboard({ role, name, email, profile, anonymous, onUpd
         />
       )}
 
-      <PriscilaChat
-        open={chatOpen}
-        onClose={() => setChatOpen(false)}
-        onRegistered={addCase}
-        onTrackCase={trackCase}
-      />
+      {role === "pessoa" && (
+        <PriscilaChat
+          open={chatOpen}
+          onClose={() => setChatOpen(false)}
+          onRegistered={addCase}
+          onTrackCase={trackCase}
+        />
+      )}
     </div>
   );
 }

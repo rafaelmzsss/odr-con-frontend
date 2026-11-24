@@ -1,31 +1,20 @@
 # ODR-CON Frontend
 
-Interface React + Vite da plataforma ODR-CON.
+Interface React + Vite conectada aos endpoints de autenticação, conversa com a Priscila e registro de relatos do backend Spring Boot.
 
 ## Executar localmente
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-## O que está implementado nesta versão
+Copie `.env.example` para `.env.local`. Para backend local, mantenha `VITE_API_BASE_URL=http://localhost:8080`. O backend precisa aceitar `http://localhost:5173` em CORS.
 
-- Landing page institucional existente, preservada.
-- Modal de acesso com alternância entre pessoa física e empresa.
-- Formulários de login, cadastro e recuperação (interface).
-- Entrada demonstrativa para relato sem identificação.
-- Área do consumidor: visão geral, cards de atendimentos, novo atendimento via Priscila, histórico, consulta por protocolo e perfil.
-- Área corporativa: indicadores, atendimentos, equipe/colaboradores, relatórios, satisfação/WHO-5 e perfil.
-- Chat flutuante da Priscila preparado para integração HTTP com o backend (conversa dinâmica, revisão/edição/rejeição/confirmação do relato, estados de carregamento e erro). **A IA ainda não está conectada**: veja `docs/INTEGRACAO_BACKEND.md`.
-- Layout responsivo para desktop e celular.
+## Publicar no Render
 
-## Configuração
+O `render.yaml` cria um Static Site. Configure a variável `VITE_API_BASE_URL` com a URL HTTPS pública do backend. No serviço do backend, configure `CORS_ALLOWED_ORIGINS` com a URL de origem HTTPS exata do frontend Render, sem barra final. Ao mudar `VITE_API_BASE_URL`, faça novo deploy do frontend.
 
-Copie `.env.example` para `.env.local` e defina `VITE_API_BASE_URL` (URL do backend). Nunca coloque chaves ou segredos em variáveis `VITE_*`.
+Detalhes dos contratos e dos módulos conectados/demonstrativos estão em [`docs/INTEGRACAO_BACKEND.md`](docs/INTEGRACAO_BACKEND.md).
 
-## Dados e integrações
-
-Esta entrega é um protótipo navegável de frontend. Login, cadastro, permissões, persistência de dados, envio de reclamações, notificações, filtros reais, relatórios e IA da Priscila ainda usam conteúdo demonstrativo ou controles visuais. Para produção, conectar os formulários e ações aos endpoints do backend, validar os dados no servidor e implementar autenticação/autorização por perfil. O fluxo anônimo também precisa de regras de privacidade e protocolo definidas no backend.
-
-A opção de login/cadastro diferencia os perfis de pessoa física e empresa. A equipe da empresa é gerenciada dentro da área corporativa, com perfis de administradora, gestor e atendente como exemplos visuais.
+Nunca coloque chaves de IA, senhas ou tokens em variáveis `VITE_*`: elas são públicas no navegador.

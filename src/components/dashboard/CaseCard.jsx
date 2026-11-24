@@ -16,7 +16,7 @@ export default function CaseCard({ item, onClick }) {
 
       <div className="case-bottom">
         <span>{item.id}</span>
-        <span>{item.date}　↗</span>
+        <span>{item.date} ↗</span>
       </div>
     </button>
   );
