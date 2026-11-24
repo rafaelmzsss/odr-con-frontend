@@ -41,9 +41,9 @@ const sampleCases = [
   },
 ];
 
-export default function Dashboard({ role, name, email, profile, onUpdateProfile, onExit }) {
+export default function Dashboard({ role, name, email, profile, anonymous, onUpdateProfile, onExit }) {
   const [active, setActive] = useState("inicio");
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(anonymous);
   const [cases, setCases] = useState(sampleCases);
   const [notifications, setNotifications] = useState(false);
   const [selectedCase, setSelectedCase] = useState(null);
