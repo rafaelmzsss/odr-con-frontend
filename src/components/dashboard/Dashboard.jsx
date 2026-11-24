@@ -47,6 +47,8 @@ export default function Dashboard({ role, name, email, profile, anonymous, onUpd
   const [cases, setCases] = useState(sampleCases);
   const [notifications, setNotifications] = useState(false);
   const [selectedCase, setSelectedCase] = useState(null);
+  const displayName =
+  name || email?.split("@")[0] || (anonymous ? "Visitante anônimo" : "Usuário");
 
   // Chamado apenas após o backend devolver um protocolo real.
   const addCase = ({ protocol, summary }) =>
@@ -79,7 +81,7 @@ export default function Dashboard({ role, name, email, profile, anonymous, onUpd
         active={active}
         setActive={setActive}
         onExit={onExit}
-        name={name}
+        name={displayName}
       />
 
       <main className="dashboard-main">
@@ -104,9 +106,9 @@ export default function Dashboard({ role, name, email, profile, anonymous, onUpd
 
             <div className="top-profile">
               <div className="avatar small">
-                {name.slice(0, 1).toUpperCase()}
-              </div>
-              <span>{name}</span>
+                {displayName.slice(0, 1).toUpperCase()}
+                </div>
+                <span>{displayName}</span>
             </div>
           </div>
         </header>
