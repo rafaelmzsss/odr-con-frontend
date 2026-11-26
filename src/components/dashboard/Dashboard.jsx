@@ -12,9 +12,10 @@ export default function Dashboard({ role, name, email, profile, anonymous, onUpd
   const [active, setActive] = useState("inicio");
   const [chatOpen, setChatOpen] = useState(false);
   const [cases, setCases] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
   const [notifications, setNotifications] = useState(false);
   const [selectedCase, setSelectedCase] = useState(null);
-  
+
   const displayName =
   name || email?.split("@")[0] || (anonymous ? "Visitante anônimo" : "Usuário");
 
