@@ -3,7 +3,6 @@ export const menuCustomer = [
   { id: "atendimentos", label: "Meus atendimentos", icon: "▤" },
   { id: "novo", label: "Novo atendimento", icon: "＋" },
   { id: "protocolo", label: "Consultar protocolo", icon: "⌕" },
-  { id: "historico", label: "Histórico", icon: "◷" },
   { id: "perfil", label: "Meu perfil", icon: "♙" },
 ];
 

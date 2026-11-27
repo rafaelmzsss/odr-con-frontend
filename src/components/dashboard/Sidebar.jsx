@@ -20,7 +20,9 @@ export const menuCompany = [
 ];
 
 export default function Sidebar({ role, active, setActive, onExit, name }) {
-  const items = role === "empresa" ? menuCompany : menuCustomer;
+  const items = (
+    role === "empresa" ? menuCompany : menuCustomer
+  ).filter((item) => item.id !== "historico");
 
   return (
     <aside className="dash-sidebar">
