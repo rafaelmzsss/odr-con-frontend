@@ -1,28 +1,17 @@
+
 import Brand from "../Brand";
+import { menuCustomer, menuCompany } from "./menus";
 
-export const menuCustomer = [
-    { id: "inicio", label: "Visão geral", icon: "⌂" },
-    { id: "atendimentos", label: "Meus atendimentos", icon: "▤" },
-    { id: "novo", label: "Novo atendimento", icon: "＋" },
-    { id: "anonimo", label: "Relato anônimo", icon: "◌" },
-    { id: "protocolo", label: "Consultar protocolo", icon: "⌕" },
-    { id: "historico", label: "Histórico", icon: "◷" },
-    { id: "perfil", label: "Meu perfil", icon: "♙" },
-];
-
-export const menuCompany = [
-  { id: "inicio", label: "Visão geral", icon: "⌂" },
-  { id: "atendimentos", label: "Atendimentos", icon: "▤" },
-  { id: "equipe", label: "Equipe", icon: "♧" },
-  { id: "relatorios", label: "Relatórios", icon: "▥" },
-  { id: "satisfacao", label: "Satisfação", icon: "☆" },
-  { id: "perfil", label: "Perfil da empresa", icon: "▣" },
-];
-
-export default function Sidebar({ role, active, setActive, onExit, name }) {
-  const items = (
-    role === "empresa" ? menuCompany : menuCustomer
-  ).filter((item) => item.id !== "historico");
+export default function Sidebar({
+  role,
+  active,
+  setActive,
+  onExit,
+  name
+}) {
+  const items = role === "empresa"
+    ? menuCompany
+    : menuCustomer;
 
   return (
     <aside className="dash-sidebar">
@@ -35,6 +24,7 @@ export default function Sidebar({ role, active, setActive, onExit, name }) {
 
         <div>
           <strong>{name}</strong>
+
           <small>
             {role === "empresa"
               ? "Acesso corporativo"
@@ -59,8 +49,12 @@ export default function Sidebar({ role, active, setActive, onExit, name }) {
       <div className="sidebar-bottom">
         <div className="privacy-card">
           <span>✧</span>
+
           <strong>Conte com a Priscila</strong>
-          <small>Sua assistente para encontrar novos caminhos.</small>
+
+          <small>
+            Sua assistente para encontrar novos caminhos.
+          </small>
         </div>
 
         <button className="side-exit" onClick={onExit}>
