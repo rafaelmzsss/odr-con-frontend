@@ -1,12 +1,21 @@
 import CaseCard from "./CaseCard";
 
-export default function CustomerHome({ cases, setActive, openChat, onSelectCase }) {
+export default function CustomerHome({
+  cases,
+  setActive,
+  openChat,
+  onSelectCase
+}) {
   return (
     <>
       <div className="welcome-panel">
         <div>
-          <span className="eyebrow">SEU ESPAÇO DE ESCUTA</span>
+          <span className="eyebrow">
+            SEU ESPAÇO DE ESCUTA
+          </span>
+
           <h1>Olá! Que bom ter você por aqui.</h1>
+
           <p>
             Acompanhe seus atendimentos ou converse com a Priscila
             para registrar uma nova situação.
@@ -39,25 +48,38 @@ export default function CustomerHome({ cases, setActive, openChat, onSelectCase 
         </button>
       </div>
 
-      {cases.length ? (
-        <div className="case-grid">
-          {cases.slice(0, 3).map((c) => (
-            <CaseCard key={c.id} item={c} onClick={() => onSelectCase(c)} />
-          ))}
-        </div>
-      ) : (
-        <div className="data-empty-state customer-home-empty">
-          <span aria-hidden="true">✧</span>
-          <h3>Você ainda não tem atendimentos</h3>
-          <p>Quando um atendimento for registrado, as informações aparecerão aqui para você acompanhar.</p>
-        </div>
-      )}
+      <div className="case-grid">
+        {cases.length === 0 ? (
+          <div
+            className="tip-panel"
+            style={{ gridColumn: "1 / -1" }}
+          >
+            <div>
+              <strong>Nenhum atendimento registrado</strong>
+
+              <p>
+                Seus atendimentos aparecerão aqui assim
+                que forem registrados.
+              </p>
+            </div>
+          </div>
+        ) : (
+          cases.slice(0, 3).map((c) => (
+            <CaseCard
+              key={c.id}
+              item={c}
+              onClick={() => onSelectCase(c)}
+            />
+          ))
+        )}
+      </div>
 
       <div className="tip-panel">
         <span className="tip-icon">✧</span>
 
         <div>
           <strong>Não sabe por onde começar?</strong>
+
           <p>
             A Priscila pode ajudar você a organizar seu relato
             e entender os próximos passos.
