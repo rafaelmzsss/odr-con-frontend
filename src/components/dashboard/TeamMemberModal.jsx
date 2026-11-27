@@ -10,6 +10,27 @@ const PERMISSIONS = [
   { id: "manageCompany", label: "Editar informações da empresa" },
 ];
 
+const PROFILE_PERMISSIONS = {
+  Administrador: [
+    "viewCases",
+    "manageCases",
+    "viewReports",
+    "viewSatisfaction",
+    "manageTeam",
+    "manageCompany",
+  ],
+  Gestor: [
+    "viewCases",
+    "manageCases",
+    "viewReports",
+    "viewSatisfaction",
+  ],
+  Atendente: [
+    "viewCases",
+    "manageCases",
+  ],
+};
+
 const EMPTY_MEMBER = {
   fullName: "",
   email: "",
@@ -51,17 +72,37 @@ export default function TeamMemberModal({ mode, member, onClose, onSave }) {
     };
   }, [onClose, uid]);
 
-  const setField = (field, value) =>
-    setValues((current) => ({ ...current, [field]: value }));
+  const setField = (field, value) => {
+  setValues((current) => {
+    if (
+      field === "accessProfile" &&
+      PROFILE_PERMISSIONS[value]
+    ) {
+      return {
+        ...current,
+        accessProfile: value,
+        permissions: [...PROFILE_PERMISSIONS[value]],
+      };
+    }
+
+    return {
+      ...current,
+      [field]: value,
+    };
+  });
+};
 
   const togglePermission = (permission) => {
-    setValues((current) => ({
-      ...current,
-      permissions: current.permissions.includes(permission)
-        ? current.permissions.filter((item) => item !== permission)
-        : [...current.permissions, permission],
-    }));
-  };
+  setValues((current) => ({
+    ...current,
+    accessProfile: "Personalizado",
+    permissions: current.permissions.includes(permission)
+      ? current.permissions.filter(
+          (item) => item !== permission
+        )
+      : [...current.permissions, permission],
+  }));
+};
 
   const handleSubmit = (event) => {
     event.preventDefault();
