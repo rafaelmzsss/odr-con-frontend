@@ -29,6 +29,7 @@ export default function GenericPage({
   name,
   email,
   profile,
+  anonymous = false,
   onUpdateProfile,
   cases = [],
   teamMembers = [],
@@ -242,7 +243,17 @@ export default function GenericPage({
           {!isAnonymous && <button className="outline-button" onClick={role !== "empresa" && profile ? () => setEditOpen(true) : undefined}>Editar informações</button>}
         </div>
         {editOpen && <EditProfileModal user={profile} onClose={() => setEditOpen(false)} onSave={onUpdateProfile} />}
-        <div className="chart-card"><h3>Segurança e privacidade</h3><p>Gerencie senha, dados de acesso e preferências de comunicação.</p><button className="text-button">Alterar senha →</button></div>
+        {!anonymous && (
+         <div className="chart-card">
+          <h3>Segurança e privacidade</h3>
+           <p>
+            Gerencie senha, dados de acesso e preferências de comunicação.
+          </p>
+           <button className="text-button">
+            Alterar senha →
+          </button>
+       </div>
+)}
       </>
     );
   }
