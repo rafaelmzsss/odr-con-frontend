@@ -114,6 +114,7 @@ export default function Dashboard({ role, name, email, profile, onUpdateProfile,
             name={name}
             email={email}
             profile={profile}
+            anonymous={anonymous}
             onUpdateProfile={onUpdateProfile}
             cases={cases}
             teamMembers={teamMembers}
