@@ -18,8 +18,9 @@ import "./Priscila.css";
  * apenas deixa de renderizar quando fechado; por isso fechar e reabrir não
  * apaga a conversa.
  */
-export default function PriscilaChat({ open, onClose, onRegistered, onTrackCase }) {
-  const chat = usePriscilaChat({ onRegistered });
+export default function PriscilaChat({ open, onClose, onRegistered, onTrackCase, anonymous = false }) {
+  const chat = usePriscilaChat({ onRegistered, anonymous });
+
   const {
     messages,
     phase,
@@ -104,7 +105,9 @@ export default function PriscilaChat({ open, onClose, onRegistered, onTrackCase 
       </header>
 
       <div className="chat-context">
-        Seus relatos são tratados com confidencialidade. Evite compartilhar senhas ou dados bancários.
+        {anonymous
+          ? "Conversa anônima: ela não fica vinculada a uma conta. Guarde o protocolo do relato."
+          : "Seus relatos são tratados com confidencialidade. Evite compartilhar senhas ou dados bancários."}
       </div>
 
       {confirmingNew && (
@@ -153,7 +156,7 @@ export default function PriscilaChat({ open, onClose, onRegistered, onTrackCase 
 
       {registered ? (
         <div className="chat-done">
-          {onTrackCase && (
+          {!anonymous && onTrackCase && (
             <button type="button" onClick={onTrackCase}>Acompanhar atendimento</button>
           )}
           <button type="button" onClick={handleNewConversation}>Nova conversa</button>

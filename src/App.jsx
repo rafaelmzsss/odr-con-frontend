@@ -35,12 +35,13 @@ export default function App() {
     };
   }, []);
   
-  const enter = ({ role, name, email = "" }) => {
+  const enter = ({ role, name, email = "", user }) => {
   setSession({
     role,
     name,
     email,
     anonymous: !email,
+    user,
     // Sessão anônima não tem e-mail, então não tem perfil para editar.
     profile: email
       ? createInitialProfile({ email, fullName: name ?? "" })

@@ -10,7 +10,7 @@ import PriscilaChat from "../Priscila/PriscilaChat";
 
 export default function Dashboard({ role, name, email, profile, anonymous, onUpdateProfile, onExit }) {
   const [active, setActive] = useState("inicio");
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(anonymous);
   const [cases, setCases] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [notifications, setNotifications] = useState(false);
