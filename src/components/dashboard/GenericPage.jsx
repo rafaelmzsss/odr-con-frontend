@@ -167,8 +167,26 @@ export default function GenericPage({
                   <button className="more-button" aria-label={`Opções de ${member.fullName}`} aria-expanded={openMenuId === member.id} onClick={() => setOpenMenuId(openMenuId === member.id ? null : member.id)}>•••</button>
                   {openMenuId === member.id && (
                     <div className="team-action-menu">
-                      <button onClick={() => { setEditingMember(member); setOpenMenuId(null); }}>Editar informações e permissões</button>
-                    </div>
+                     <button
+                     type="button"
+                     onClick={() => {
+                     setEditingMember(member);
+                     setOpenMenuId(null);
+                    }}
+                     >
+                     Editar informações
+                    </button>
+
+                   <button
+                    type="button"
+                    onClick={() => {
+                    setEditingMember(member);
+                    setOpenMenuId(null);
+                    }}
+                    >
+                    Editar permissões
+                   </button>
+                  </div>
                   )}
                 </div>
               </div>
