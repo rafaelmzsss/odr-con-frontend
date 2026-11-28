@@ -35,7 +35,7 @@ export default function App() {
     };
   }, []);
   
-  const enter = ({ role, name, email = "", user }) => {
+  const enter = ({ role, name, email = "" }) => {
   setSession({
     role,
     name,
