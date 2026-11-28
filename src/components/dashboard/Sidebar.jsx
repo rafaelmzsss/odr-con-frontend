@@ -1,8 +1,17 @@
-import Brand from "../Brand";
-import { menuCompany, menuCustomer } from "./menus";
 
-export default function Sidebar({ role, active, setActive, onExit, name }) {
-  const items = role === "empresa" ? menuCompany : menuCustomer;
+import Brand from "../Brand";
+import { menuCustomer, menuCompany } from "./menus";
+
+export default function Sidebar({
+  role,
+  active,
+  setActive,
+  onExit,
+  name
+}) {
+  const items = role === "empresa"
+    ? menuCompany
+    : menuCustomer;
 
   return (
     <aside className="dash-sidebar">
@@ -15,6 +24,7 @@ export default function Sidebar({ role, active, setActive, onExit, name }) {
 
         <div>
           <strong>{name}</strong>
+
           <small>
             {role === "empresa"
               ? "Acesso corporativo"
@@ -39,8 +49,12 @@ export default function Sidebar({ role, active, setActive, onExit, name }) {
       <div className="sidebar-bottom">
         <div className="privacy-card">
           <span>✧</span>
+
           <strong>Conte com a Priscila</strong>
-          <small>Sua assistente para encontrar novos caminhos.</small>
+
+          <small>
+            Sua assistente para encontrar novos caminhos.
+          </small>
         </div>
 
         <button className="side-exit" onClick={onExit}>

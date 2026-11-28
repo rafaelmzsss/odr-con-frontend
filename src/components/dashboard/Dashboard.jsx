@@ -8,45 +8,16 @@ import GenericPage from "./GenericPage";
 import CaseDetailDrawer from "./CaseDetailDrawer";
 import PriscilaChat from "../Priscila/PriscilaChat";
 
-const sampleCases = [
-  {
-    id: "ODR-2026-0184",
-    company: "Conecta Telecom",
-    title: "Instabilidade na conexão de internet",
-    detail: "Quedas frequentes durante o período da noite.",
-    status: "Em andamento",
-    date: "03 nov. 2026",
-    tone: "blue",
-    category: "Serviço",
-  },
-  {
-    id: "ODR-2026-0172",
-    company: "Loja Horizonte",
-    title: "Solicitação de troca de produto",
-    detail: "Produto apresentou defeito após poucos dias de uso.",
-    status: "Aguardando empresa",
-    date: "29 out. 2026",
-    tone: "amber",
-    category: "Produto",
-  },
-  {
-    id: "ODR-2026-0159",
-    company: "Banco Centralis",
-    title: "Divergência em cobrança",
-    detail: "Valor cobrado diferente do informado na contratação.",
-    status: "Concluído",
-    date: "21 out. 2026",
-    tone: "green",
-    category: "Financeiro",
-  },
-];
-
-export default function Dashboard({ role, name, email, profile, onUpdateProfile, onExit, anonymous = false }) {
+export default function Dashboard({ role, name, email, profile, anonymous, onUpdateProfile, onExit }) {
   const [active, setActive] = useState("inicio");
   const [chatOpen, setChatOpen] = useState(anonymous);
-  const [cases, setCases] = useState(sampleCases);
+  const [cases, setCases] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
   const [notifications, setNotifications] = useState(false);
   const [selectedCase, setSelectedCase] = useState(null);
+
+  const displayName =
+  name || email?.split("@")[0] || (anonymous ? "Visitante anônimo" : "Usuário");
 
   // Chamado apenas após o backend devolver um protocolo real.
   const addCase = ({ protocol, summary }) =>
@@ -79,7 +50,7 @@ export default function Dashboard({ role, name, email, profile, onUpdateProfile,
         active={active}
         setActive={setActive}
         onExit={onExit}
-        name={name}
+        name={displayName}
       />
 
       <main className="dashboard-main">
@@ -104,9 +75,9 @@ export default function Dashboard({ role, name, email, profile, onUpdateProfile,
 
             <div className="top-profile">
               <div className="avatar small">
-                {name.slice(0, 1).toUpperCase()}
-              </div>
-              <span>{name}</span>
+                {displayName.slice(0, 1).toUpperCase()}
+                </div>
+                <span>{displayName}</span>
             </div>
           </div>
         </header>
@@ -146,8 +117,11 @@ export default function Dashboard({ role, name, email, profile, onUpdateProfile,
             name={name}
             email={email}
             profile={profile}
+            anonymous={anonymous}
             onUpdateProfile={onUpdateProfile}
             cases={cases}
+            teamMembers={teamMembers}
+            setTeamMembers={setTeamMembers}
             setActive={setActive}
             onSelectCase={setSelectedCase}
             />
@@ -183,7 +157,6 @@ export default function Dashboard({ role, name, email, profile, onUpdateProfile,
           onClose={() => setChatOpen(false)}
           onRegistered={addCase}
           onTrackCase={trackCase}
-          anonymous={anonymous}
         />
       )}
     </div>
