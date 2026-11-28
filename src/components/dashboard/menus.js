@@ -1,9 +1,10 @@
+
 export const menuCustomer = [
   { id: "inicio", label: "Visão geral", icon: "⌂" },
   { id: "atendimentos", label: "Meus atendimentos", icon: "▤" },
   { id: "novo", label: "Novo atendimento", icon: "＋" },
+  { id: "anonimo", label: "Relato anônimo", icon: "◌" },
   { id: "protocolo", label: "Consultar protocolo", icon: "⌕" },
-  { id: "historico", label: "Histórico", icon: "◷" },
   { id: "perfil", label: "Meu perfil", icon: "♙" },
 ];
 

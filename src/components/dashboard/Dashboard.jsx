@@ -8,43 +8,11 @@ import GenericPage from "./GenericPage";
 import CaseDetailDrawer from "./CaseDetailDrawer";
 import PriscilaChat from "../Priscila/PriscilaChat";
 
-const sampleCases = [
-  {
-    id: "ODR-2026-0184",
-    company: "Conecta Telecom",
-    title: "Instabilidade na conexão de internet",
-    detail: "Quedas frequentes durante o período da noite.",
-    status: "Em andamento",
-    date: "03 nov. 2026",
-    tone: "blue",
-    category: "Serviço",
-  },
-  {
-    id: "ODR-2026-0172",
-    company: "Loja Horizonte",
-    title: "Solicitação de troca de produto",
-    detail: "Produto apresentou defeito após poucos dias de uso.",
-    status: "Aguardando empresa",
-    date: "29 out. 2026",
-    tone: "amber",
-    category: "Produto",
-  },
-  {
-    id: "ODR-2026-0159",
-    company: "Banco Centralis",
-    title: "Divergência em cobrança",
-    detail: "Valor cobrado diferente do informado na contratação.",
-    status: "Concluído",
-    date: "21 out. 2026",
-    tone: "green",
-    category: "Financeiro",
-  },
-];
-
 export default function Dashboard({ role, name, email, profile, onUpdateProfile, onExit, anonymous = false }) {
   const [active, setActive] = useState("inicio");
-  const [chatOpen, setChatOpen] = useState(anonymous);
-  const [cases, setCases] = useState(sampleCases);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [cases, setCases] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
   const [notifications, setNotifications] = useState(false);
   const [selectedCase, setSelectedCase] = useState(null);
 
@@ -146,8 +114,11 @@ export default function Dashboard({ role, name, email, profile, onUpdateProfile,
             name={name}
             email={email}
             profile={profile}
+            anonymous={anonymous}
             onUpdateProfile={onUpdateProfile}
             cases={cases}
+            teamMembers={teamMembers}
+            setTeamMembers={setTeamMembers}
             setActive={setActive}
             onSelectCase={setSelectedCase}
             />
